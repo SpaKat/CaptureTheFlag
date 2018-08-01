@@ -12,15 +12,14 @@ import javafx.scene.shape.Circle;
 public class GameServerClient extends Thread{
 
 	private Socket socket;
-	
+
 	public GameServerClient(Socket socket) {
 		this.setName("GameServerClient");
 		this.socket = socket;
-		
 		this.start();
 	}
 
-	
+
 
 	@Override
 	public void run() {
@@ -29,22 +28,25 @@ public class GameServerClient extends Thread{
 
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			/*try {
-				while (!this.isInterrupted()) {
-					
+			while (!this.isInterrupted()) {
+				try {
+
+
+
 					Message message = (Message) in.readObject();
 					int id = message.getID();
 
-					
-			}catch (EOFException e) {
-				System.err.println("Oops");
-			}}*/
+
+				}catch (EOFException e) {
+					System.err.println("Oops");
+				}
+			}
 		}catch (Exception e) {
 			e.printStackTrace();		
 		}
 		System.out.println("Died");
 	}
-	
+
 
 	public void kill() {
 		try {

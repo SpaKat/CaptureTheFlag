@@ -34,4 +34,7 @@ public class Team {
 	public int getId() {
 		return id;
 	}
+	public Flag getFlag() {
+		return flag;
+	}
 }

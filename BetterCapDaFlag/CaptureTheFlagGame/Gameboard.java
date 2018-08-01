@@ -31,5 +31,26 @@ public class Gameboard extends GameObject{
 	//	System.out.println(id+ "     "+homeBase.getX() + "    " + homeBase.getY());
 	}
 
+	public void spawnFlags(Flag flag, int id, double offset) {
+		switch (id) {
+		case 0:
+			flag.setX(offset);
+			flag.setY(offset);
+			break;
+		case 1:
+			flag.setX(getX() - offset);
+			flag.setY(getY() - offset);
+			break;
+		case 2:
+			flag.setX(getX() - offset);
+			flag.setY(offset);
+			break;
+		case 3:
+			flag.setX(offset);
+			flag.setY(getY() - offset);
+			break;
+		}
+	}
+
 
 }

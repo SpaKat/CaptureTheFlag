@@ -1,9 +1,9 @@
 
 
 import CaptureTheFlagGame.GameManager;
+import Server.GameServer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,13 +22,14 @@ public class GameGUIControls extends MenuBar {
 	private GameManager gameManager;
 	private GameBoardPane gameBoardPane;
 	private Timeline gameTimeline;
-
+	private GameServer gameServer;
 	// bullet 1/3
 	// player 1/2 
 
 
 	public GameGUIControls(GameManager gameManager, GameBoardPane gameBoardPane) {
 		super();
+		gameServer = new GameServer();
 		setStyle("-fx-background-color: aqua ");
 		this.gameManager = gameManager;
 		this.gameBoardPane = gameBoardPane;
@@ -162,6 +163,10 @@ public class GameGUIControls extends MenuBar {
 	private Menu playerMenu() {
 		Menu player = new Menu("Player Options");
 		return player;
+	}
+
+	public void close() {
+		gameServer.interrupt();
 	}
 
 

@@ -3,7 +3,7 @@ package CaptureTheFlagGame;
 import java.util.ArrayList;
 
 public class Game {
-	
+
 	private ArrayList<Team> teams;
 	private int respawnTimer = 3; // in seconds
 	private Gameboard gameboard;
@@ -14,34 +14,34 @@ public class Game {
 
 	public void spawnPLayers() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void checkForKill() {
 		// TODO Auto-generated method stub
-		
-		
+
+
 	}
 
 	public void checkForPoint() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void move() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean checkForWin() {
 		// TODO Auto-generated method stub
-		
+
 		return false;
 	}
 
 	public void respawn() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setnumberofplayers(int parseInt) {
@@ -79,5 +79,17 @@ public class Game {
 	public Team getTeam(int i) {
 		return teams.get(i);
 	}
-	
+
+	public void relocateFlags() {
+		for (int i = 0; i < teams.size(); i++) {
+			Team team = teams.get(i);
+			if(team.getFlag().isSpawned()){
+				//TODO
+			}else {
+				gameboard.spawnFlags(team.getFlag(),team.getId(),team.getHomeBase().getRadius());
+				team.getFlag().setSpawned(true);
+			}
+		}
+	}
+
 }

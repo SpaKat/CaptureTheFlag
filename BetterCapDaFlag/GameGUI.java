@@ -3,8 +3,8 @@
 import CaptureTheFlagGame.GameManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -14,6 +14,7 @@ public class GameGUI extends Application {
 	private BorderPane mainBorderPane;
 	private GameManager gameManager;
 	private GameBoardPane gameBoardPane;
+	private GameGUIControls controls;
 	
 	public GameGUI() {
 		
@@ -23,10 +24,13 @@ public class GameGUI extends Application {
 		gameManager = new GameManager(startX, startY);
 		gameBoardPane = new GameBoardPane(gameManager);
 		
-		
+		//ScrollPane scrollPane = new ScrollPane(gameBoardPane);
+		//TODO
 		
 		mainBorderPane = new BorderPane(gameBoardPane);
-		mainBorderPane.setTop(new GameGUIControls(gameManager,gameBoardPane));
+		
+		controls = new GameGUIControls(gameManager,gameBoardPane);
+		mainBorderPane.setTop(controls);
 		gameBoardPane.setPrefWidth(startX);
 		gameBoardPane.setPrefHeight(startY);
 		gameBoardPane.autosize();
@@ -39,7 +43,7 @@ public class GameGUI extends Application {
 		
 		stage.setTitle("Capture The Flag");
 		stage.setOnCloseRequest(close ->{
-			
+			controls.close();
 		});
 		Scene scene = new Scene(mainBorderPane);
 		

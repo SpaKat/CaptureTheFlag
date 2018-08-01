@@ -1,13 +1,16 @@
 package CaptureTheFlagGame;
-
-public class Flag extends GameObject{
+ 
+public class Flag extends GameColorObject{
 
 	private boolean taken;
-	private int color;
+	private double radius;
+	
 	
 	public Flag(int color) {
+		super();
 		taken = false;
-		this.color = color;
+		setColor(color);
+		radius = 7;
 	}
 	
 	public boolean isTaken() {
@@ -16,11 +19,7 @@ public class Flag extends GameObject{
 	public void setTaken(boolean taken) {
 		this.taken = taken;
 	}
-	public void setColor(int color) {
-		this.color = color;
+	public double getRadius() {
+		return radius;
 	}
-	public int getColor() {
-		return color;
-	}
-	
 }

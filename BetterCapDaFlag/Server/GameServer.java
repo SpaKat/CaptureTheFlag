@@ -7,10 +7,10 @@ public class GameServer extends Thread{
 
 	private ServerSocket serverSocket ;
 	private int port = 8008;
-	private ThreadGroup serverClients;
-	
+	private ArrayList<GameServerClient> serverClients;
+
 	public GameServer() {
-		serverClients  = new ThreadGroup("ServerClients");
+		serverClients  = new ArrayList<GameServerClient>();
 		this.start();
 	}
 
@@ -18,20 +18,24 @@ public class GameServer extends Thread{
 	public void run() {
 		try {
 			serverSocket = new  ServerSocket(port);
-		//	while (!this.isInterrupted()) {
+			while (!this.isInterrupted()) {
 				Socket socket = serverSocket.accept();
-								System.out.println("YES");
-				
-		//	}
+				serverClients.add(new GameServerClient(socket));
+			//	System.out.println("YES");
+			}
+			for (int i = 0; i < serverClients.size(); i++) {
+				GameServerClient client = serverClients.get(i);
+				client.interrupt();
+			}
 			serverSocket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 
 	}
-	
-	
+
+
 	public void kill() {
 		try {
 			serverSocket.close();

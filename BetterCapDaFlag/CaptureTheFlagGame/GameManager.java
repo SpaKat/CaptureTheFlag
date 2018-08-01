@@ -41,6 +41,7 @@ public class GameManager{
 		game.setRespawnTimer(parseInt);
 	}
 	public void relocatePieces() {
+		game.relocateFlags();
 		game.relocateBases();
 	}
 
