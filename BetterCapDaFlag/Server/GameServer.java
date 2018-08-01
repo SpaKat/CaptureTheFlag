@@ -1,6 +1,8 @@
 package Server;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class GameServer extends Thread{
@@ -18,10 +20,9 @@ public class GameServer extends Thread{
 	public void run() {
 		try {
 			serverSocket = new  ServerSocket(port);
-			while (!this.isInterrupted()) {
+			while (!this.isInterrupted()) {				
 				Socket socket = serverSocket.accept();
 				serverClients.add(new GameServerClient(socket));
-			//	System.out.println("YES");
 			}
 			for (int i = 0; i < serverClients.size(); i++) {
 				GameServerClient client = serverClients.get(i);
@@ -35,7 +36,16 @@ public class GameServer extends Thread{
 
 	}
 
-
+	public String getIp () {
+		String ip = "Not Found"; 
+		try {
+		 ip =	 Inet4Address.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return ip;
+	}
+	
 	public void kill() {
 		try {
 			serverSocket.close();

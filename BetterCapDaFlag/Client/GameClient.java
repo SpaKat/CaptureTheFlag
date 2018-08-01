@@ -6,6 +6,7 @@ import java.net.Socket;
 public class GameClient extends Thread {
 
 	private String ip;
+	private int port = 8008;
 	
 	public GameClient(String ip) {
 		this.ip = ip;
@@ -14,7 +15,7 @@ public class GameClient extends Thread {
 	@Override
 	public void run() {
 		try {
-			Socket s = new Socket(ip,8008);
+			Socket s = new Socket(ip,port);
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 

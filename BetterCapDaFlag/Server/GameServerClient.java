@@ -36,7 +36,9 @@ public class GameServerClient extends Thread{
 					Message message = (Message) in.readObject();
 					int id = message.getID();
 
-
+					
+					
+					Thread.sleep(1);
 				}catch (EOFException e) {
 					System.err.println("Oops");
 				}

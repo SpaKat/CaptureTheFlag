@@ -1,6 +1,7 @@
 
 
 import CaptureTheFlagGame.GameManager;
+import Client.GameClient;
 import Server.GameServer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,13 +24,14 @@ public class GameGUIControls extends MenuBar {
 	private GameBoardPane gameBoardPane;
 	private Timeline gameTimeline;
 	private GameServer gameServer;
+	private GameClient gameClient;
 	// bullet 1/3
 	// player 1/2 
 
 
 	public GameGUIControls(GameManager gameManager, GameBoardPane gameBoardPane) {
 		super();
-		gameServer = new GameServer();
+		
 		setStyle("-fx-background-color: aqua ");
 		this.gameManager = gameManager;
 		this.gameBoardPane = gameBoardPane;
@@ -57,6 +59,7 @@ public class GameGUIControls extends MenuBar {
 		MenuItem startServer = new MenuItem("Start Server");
 		startServer.setDisable(true);
 		startServer.setOnAction(start ->{
+			gameServer = new GameServer();
 			gameBoardPane.start();
 			gameTimeline.play();
 		});
@@ -157,6 +160,32 @@ public class GameGUIControls extends MenuBar {
 
 	private Menu clientMenu() {
 		Menu clientMenu = new Menu("Client Controls");
+		
+		MenuItem connect = new MenuItem("Connect");
+		
+		connect.setOnAction(con ->{
+			
+			Text enterIp = new Text("Enter IP");
+			TextField ip = new TextField();
+			
+			HBox ipHB = new HBox();
+			ipHB.getChildren().addAll(enterIp,ip);
+			
+			VBox vbox = new VBox();
+			
+			Button enter = new Button("Enter");
+			Stage stage = new Stage();
+						
+			enter.setOnAction(ent ->{
+				gameClient= new GameClient(ip.getText());
+			});
+
+			vbox.getChildren().addAll(ipHB,enter);
+			stage.setScene(new Scene(vbox));
+			stage.setTitle("Client Settings");
+			stage.show();
+		});
+		clientMenu.getItems().add(connect);
 		return clientMenu;
 	}
 
@@ -166,7 +195,17 @@ public class GameGUIControls extends MenuBar {
 	}
 
 	public void close() {
+		try {
 		gameServer.interrupt();
+		gameServer.kill();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			gameClient.interrupt();
+		} catch (Exception e) {
+		//	e.printStackTrace();
+		}
 	}
 
 
