@@ -1,12 +1,18 @@
 package CaptureTheFlagGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -365361190277582864L;
 	private ArrayList<Team> teams;
 	private int respawnTimer = 3; // in seconds
 	private Gameboard gameboard;
+	
 	public Game(Gameboard gameboard) {
 		this.gameboard = gameboard;
 		teams = new ArrayList<>();

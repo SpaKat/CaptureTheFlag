@@ -4,11 +4,11 @@ public class Player extends GameColorObject{
 	
 	
 	private double heading; // tan2
-	private Statistics stats; //custemized
+	private Statistics stats; //Customized
 
 	
 	public Player(Statistics stats,int color) {
-		setStats(stats);
+		this.stats = stats;
 		setColor(color);
 	}
 	
@@ -30,9 +30,4 @@ public class Player extends GameColorObject{
 	public Statistics getStats() {
 		return stats;
 	}
-	public void setStats(Statistics stats) {
-		this.stats = stats;
-	}
-	
-	
 }

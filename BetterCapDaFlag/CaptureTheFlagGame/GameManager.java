@@ -1,5 +1,7 @@
 package CaptureTheFlagGame;
 
+
+
 public class GameManager{
 
 	private Gameboard Gameboard;
@@ -55,9 +57,14 @@ public class GameManager{
 	public Team getTeam(int i) {
 		return game.getTeam(i);
 	}
+	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
 
+	public Object sendInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-
+	
 
 
 

@@ -1,54 +1,42 @@
 package CaptureTheFlagGame;
 
-public class Statistics {
-	
+import java.io.Serializable;
+
+public class Statistics implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5103534241630958413L;
 	private double attack;
 	private double defense;
 	private double health;
 	private double movespeed;
-	private int color; // hex
-	
-	public Statistics(double attack,double defense,double health,double movespeed,int color) {
-		setAttack(attack);
-		setDefense(defense);
-		setHealth(health);
-		setMovespeed(movespeed);
-		setColor(color);
+	private final double MAXRATING = 100;
+	public Statistics(double attack,double defense,double health,double movespeed) {
+		this.attack = attack;
+		this.defense = defense;
+		this.health = health;
+		this.movespeed = movespeed;
 	}
-	public int getRateing() {
-		int rateing = (int) (attack + defense + health + movespeed); 
-		return rateing;
+	public boolean getRateing() {
+		int rateing = (int)   Math.ceil(attack + defense + health + movespeed);
+		boolean b = false;
+		if(rateing <= MAXRATING) {
+			b = true;
+		}
+		return b;
 	}
 	public double getAttack() {
 		return attack;
 	}
-	public void setAttack(double attack) {
-		this.attack = attack;
-	}
 	public double getDefense() {
 		return defense;
-	}
-	public void setDefense(double defense) {
-		this.defense = defense;
 	}
 	public double getHealth() {
 		return health;
 	}
-	public void setHealth(double health) {
-		this.health = health;
-	}
 	public double getMovespeed() {
 		return movespeed;
 	}
-	public void setMovespeed(double movespeed) {
-		this.movespeed = movespeed;
-	}
-	public int getColor() {
-		return color;
-	}
-	public void setColor(int color) {
-		this.color = color;
-	}
-	
-
 }

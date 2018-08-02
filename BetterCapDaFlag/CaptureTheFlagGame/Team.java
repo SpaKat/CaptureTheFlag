@@ -1,16 +1,22 @@
 package CaptureTheFlagGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Team {
+public class Team implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -986900377830035185L;
 	private Flag flag;
 	private HomeBase homeBase;
 	private ArrayList<Player> players;
 	private int color; //hex
 	private int maxPlayers;
 	private int id;
+	
 	public Team(int id) {
 		this.id = id;
 		players = new ArrayList<>();

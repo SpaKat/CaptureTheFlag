@@ -5,17 +5,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Communication.Message;
-import Communication.PlayerMessage;
-import javafx.scene.shape.Circle;
+import CaptureTheFlagGame.GameManager;
+import CaptureTheFlagGame.Player;
 
 public class GameServerClient extends Thread{
 
 	private Socket socket;
-
-	public GameServerClient(Socket socket) {
+	private GameManager gameManager;
+	
+	public GameServerClient(Socket socket,GameManager gameManager) {
 		this.setName("GameServerClient");
 		this.socket = socket;
+		this.gameManager = gameManager;
 		this.start();
 	}
 
@@ -31,10 +32,11 @@ public class GameServerClient extends Thread{
 			while (!this.isInterrupted()) {
 				try {
 
+					out.writeObject(gameManager.sendInfo());
+					out.reset();
 
-
-					Message message = (Message) in.readObject();
-					int id = message.getID();
+					Player message = (Player) in.readObject();
+					
 
 					
 					

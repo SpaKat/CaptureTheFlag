@@ -5,13 +5,18 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import CaptureTheFlagGame.GameManager;
+import CaptureTheFlagGame.Player;
+
 public class GameServer extends Thread{
 
 	private ServerSocket serverSocket ;
 	private int port = 8008;
 	private ArrayList<GameServerClient> serverClients;
-
-	public GameServer() {
+	private GameManager gameManager;
+	
+	public GameServer(GameManager gameManager) {
+		this.gameManager = gameManager;
 		serverClients  = new ArrayList<GameServerClient>();
 		this.start();
 	}
@@ -22,7 +27,7 @@ public class GameServer extends Thread{
 			serverSocket = new  ServerSocket(port);
 			while (!this.isInterrupted()) {				
 				Socket socket = serverSocket.accept();
-				serverClients.add(new GameServerClient(socket));
+				serverClients.add(new GameServerClient(socket,gameManager));
 			}
 			for (int i = 0; i < serverClients.size(); i++) {
 				GameServerClient client = serverClients.get(i);

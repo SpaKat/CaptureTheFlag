@@ -1,6 +1,7 @@
 
 
 import CaptureTheFlagGame.GameManager;
+import CaptureTheFlagGame.Statistics;
 import Client.GameClient;
 import Server.GameServer;
 import javafx.animation.KeyFrame;
@@ -31,7 +32,7 @@ public class GameGUIControls extends MenuBar {
 
 	public GameGUIControls(GameManager gameManager, GameBoardPane gameBoardPane) {
 		super();
-		
+
 		setStyle("-fx-background-color: aqua ");
 		this.gameManager = gameManager;
 		this.gameBoardPane = gameBoardPane;
@@ -44,9 +45,9 @@ public class GameGUIControls extends MenuBar {
 			this.gameManager.relocatePieces(); // back end move
 			this.gameBoardPane.relocatePieces();// front end move
 			this.gameBoardPane.clean();
-			
+
 		}));
-		
+
 
 		Menu serverMenu = serverMenu();
 		Menu clientMenu = clientMenu();
@@ -59,7 +60,7 @@ public class GameGUIControls extends MenuBar {
 		MenuItem startServer = new MenuItem("Start Server");
 		startServer.setDisable(true);
 		startServer.setOnAction(start ->{
-			gameServer = new GameServer();
+			gameServer = new GameServer(gameManager);
 			gameBoardPane.start();
 			gameTimeline.play();
 		});
@@ -85,21 +86,21 @@ public class GameGUIControls extends MenuBar {
 		Stage stage = new Stage();
 		save.setOnAction(s ->{
 			try {
-			gameManager.setMaxNumofTeams(Integer.parseInt(numberofTeam.getText()));
-			gameManager.setMaxPLayersPerTeam(Integer.parseInt(numberofPlayer.getText()));
-			gameManager.setRespawnTimer(Integer.parseInt(numberofrespawn.getText()));
-			startServer.setDisable(false);
-			stage.close();
+				gameManager.setMaxNumofTeams(Integer.parseInt(numberofTeam.getText()));
+				gameManager.setMaxPLayersPerTeam(Integer.parseInt(numberofPlayer.getText()));
+				gameManager.setRespawnTimer(Integer.parseInt(numberofrespawn.getText()));
+				startServer.setDisable(false);
+				stage.close();
 			}catch (Exception e) {
 				// TODO
 			}
 		});
-		
+
 		VBox backVbox = new VBox();
 		backVbox.setAlignment(Pos.CENTER);
 		backVbox.getChildren().addAll(numberofPlayershb,numberofTeamshb,respawnhb,save);
-		
-		
+
+
 		stage.setTitle("Server Settings");
 		stage.setScene(new Scene(backVbox));
 		stage.show();
@@ -160,28 +161,87 @@ public class GameGUIControls extends MenuBar {
 
 	private Menu clientMenu() {
 		Menu clientMenu = new Menu("Client Controls");
-		
+
 		MenuItem connect = new MenuItem("Connect");
-		
+
 		connect.setOnAction(con ->{
-			
+
 			Text enterIp = new Text("Enter IP");
 			TextField ip = new TextField();
-			
-			HBox ipHB = new HBox();
-			ipHB.getChildren().addAll(enterIp,ip);
-			
-			VBox vbox = new VBox();
-			
-			Button enter = new Button("Enter");
-			Stage stage = new Stage();
-						
-			enter.setOnAction(ent ->{
-				gameClient= new GameClient(ip.getText());
+
+			Text enterHP = new Text("Enter Health");
+			TextField HP = new TextField();
+			HP.textProperty().addListener((obs,old,newV)->{
+				try {
+					Double.parseDouble(HP.getText());
+				}catch (Exception e) {
+					HP.setText("1");
+				}
 			});
 
-			vbox.getChildren().addAll(ipHB,enter);
-			stage.setScene(new Scene(vbox));
+			Text enterMS = new Text("Enter Movespeed");
+			TextField MS = new TextField();
+			MS.textProperty().addListener((obs,old,newV)->{
+				try {
+					Double.parseDouble(MS.getText());
+				}catch (Exception e) {
+					MS.setText("1");
+				}
+			});
+			Text enterAttack = new Text("Enter Attack");
+			TextField attack = new TextField();
+			attack.textProperty().addListener((obs,old,newV)->{
+				try {
+					Double.parseDouble(attack.getText());
+				}catch (Exception e) {
+					attack.setText("1");
+				}
+			});
+			Text enterDefence = new Text("Enter Defence");
+			TextField Defence = new TextField();
+			Defence.textProperty().addListener((obs,old,newV)->{
+				try {
+					Double.parseDouble(Defence.getText());
+				}catch (Exception e) {
+					Defence.setText("1");
+				}
+			});
+			HBox hbox = new HBox();
+			hbox.setAlignment(Pos.CENTER);
+
+			Button enter = new Button("Enter");
+			Stage stage = new Stage();
+
+			enter.setOnAction(ent ->{
+				try {
+					double hp =	Double.parseDouble(HP.getText());
+					double ms =	Double.parseDouble(MS.getText());
+					double att = Double.parseDouble(attack.getText());
+					double def = Double.parseDouble(Defence.getText());
+
+					Statistics stats = new Statistics(att,def,hp,ms);
+					if(stats.getRateing()) {
+						gameClient= new GameClient(ip.getText());
+						stage.close();
+						new GameGUIClientControls(gameClient);
+					}
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+			});
+
+
+			VBox askFor = new VBox();
+			askFor.setAlignment(Pos.TOP_CENTER);
+			askFor.getChildren().addAll(enterIp,enterHP,enterMS,enterAttack,enterDefence);
+			askFor.setSpacing(10);
+
+			VBox enterFor = new VBox();
+			enterFor.setAlignment(Pos.CENTER);
+			enterFor.getChildren().addAll(ip,HP,MS,attack,Defence,enter);
+
+			hbox.getChildren().addAll(askFor,enterFor );
+			stage.setScene(new Scene(hbox));
 			stage.setTitle("Client Settings");
 			stage.show();
 		});
@@ -196,15 +256,15 @@ public class GameGUIControls extends MenuBar {
 
 	public void close() {
 		try {
-		gameServer.interrupt();
-		gameServer.kill();
+			gameServer.interrupt();
+			gameServer.kill();
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		try {
 			gameClient.interrupt();
 		} catch (Exception e) {
-		//	e.printStackTrace();
+			//	e.printStackTrace();
 		}
 	}
 

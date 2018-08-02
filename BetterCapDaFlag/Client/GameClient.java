@@ -18,16 +18,14 @@ public class GameClient extends Thread {
 			Socket s = new Socket(ip,port);
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-
+			
+			
 			s.close();
 		} catch (Exception e) {
 
 		}
 	}
-
 	
-	public static void main(String[] args) throws Exception{
-		new GameClient("127.0.0.1");
-	}
+
 
 }
