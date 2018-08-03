@@ -30,7 +30,6 @@ public class Team implements Serializable{
 	public void setMaxPlayers(int parseInt) {
 		maxPlayers = parseInt;
 	}
-
 	public int getMaxPlayers() {
 		return maxPlayers;
 	}
@@ -42,5 +41,32 @@ public class Team implements Serializable{
 	}
 	public Flag getFlag() {
 		return flag;
+	}
+	public int getColor() {
+		return color;
+	}
+
+	public boolean full() {
+		boolean b = false;
+		if (players.size() >= maxPlayers) {
+			b = true;
+		}
+		return b;
+	}
+
+	public void addPlayer(Player player) {
+		players.add(player);
+	}
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public void spawnPlayers() {
+		for (int i = 0; i < players.size(); i++) {
+			if(!players.get(i).isSpawned()) {
+				players.get(i).setX(homeBase.getX());
+				players.get(i).setY(homeBase.getY());
+			}
+		}
 	}
 }

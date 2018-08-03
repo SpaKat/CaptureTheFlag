@@ -16,6 +16,7 @@ public class GameServer extends Thread{
 	private GameManager gameManager;
 	
 	public GameServer(GameManager gameManager) {
+		this.setName("GameServer");
 		this.gameManager = gameManager;
 		serverClients  = new ArrayList<GameServerClient>();
 		this.start();
@@ -35,18 +36,16 @@ public class GameServer extends Thread{
 			}
 			serverSocket.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-
-
 	}
 
 	public String getIp () {
 		String ip = "Not Found"; 
 		try {
-		 ip =	 Inet4Address.getLocalHost().getHostAddress();
+		 ip = Inet4Address.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return ip;
 	}
@@ -57,5 +56,6 @@ public class GameServer extends Thread{
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
+		this.interrupt();
 	}
 }

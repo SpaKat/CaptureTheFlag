@@ -9,7 +9,7 @@ public class Gameboard extends GameObject{
 		setY(y);
 	}
 
-	public void spawnHomeBase(HomeBase homeBase, int id) {
+	protected void spawnHomeBase(HomeBase homeBase, int id) {
 		switch (id) {
 		case 0:
 			homeBase.setX(totalOffset/2);
@@ -31,7 +31,7 @@ public class Gameboard extends GameObject{
 	//	System.out.println(id+ "     "+homeBase.getX() + "    " + homeBase.getY());
 	}
 
-	public void spawnFlags(Flag flag, int id, double offset) {
+	protected void spawnFlags(Flag flag, int id, double offset) {
 		switch (id) {
 		case 0:
 			flag.setX(offset);

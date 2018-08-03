@@ -7,7 +7,7 @@ import CaptureTheFlagGame.Team;
 import javafx.scene.layout.Pane;
 
 public class GameBoardPane extends Pane {
-	
+
 	private GameManager gameManager;
 	private ArrayList<GameGUIteams> teamGUI;
 
@@ -26,11 +26,8 @@ public class GameBoardPane extends Pane {
 
 	}
 
-	public void clean() {
-		
-		
-	}
-	
+
+
 	public void start() {
 		for (int i = 0; i < gameManager.getTeams(); i++) {
 			Team team = gameManager.getTeam(i);
@@ -43,6 +40,19 @@ public class GameBoardPane extends Pane {
 		}
 	}
 
+	public void addPlayers() {
+		for (int i = 0; i < gameManager.getTeams(); i++) {
+			teamGUI.forEach(add ->{
+				add.addPlayers();
+			});
+		}
+	}
+
+
+	public void clean() {
+		//TODO
+
+	}
 
 
 

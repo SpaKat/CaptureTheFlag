@@ -43,6 +43,7 @@ public class GameGUIControls extends MenuBar {
 		gameTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000/60), test -> {
 			//TODO 
 			this.gameManager.relocatePieces(); // back end move
+			this.gameBoardPane.addPlayers();
 			this.gameBoardPane.relocatePieces();// front end move
 			this.gameBoardPane.clean();
 
@@ -167,10 +168,10 @@ public class GameGUIControls extends MenuBar {
 		connect.setOnAction(con ->{
 
 			Text enterIp = new Text("Enter IP");
-			TextField ip = new TextField();
+			TextField ip = new TextField("127.0.0.1");
 
 			Text enterHP = new Text("Enter Health");
-			TextField HP = new TextField();
+			TextField HP = new TextField("5");
 			HP.textProperty().addListener((obs,old,newV)->{
 				try {
 					Double.parseDouble(HP.getText());
@@ -180,7 +181,7 @@ public class GameGUIControls extends MenuBar {
 			});
 
 			Text enterMS = new Text("Enter Movespeed");
-			TextField MS = new TextField();
+			TextField MS = new TextField("5");
 			MS.textProperty().addListener((obs,old,newV)->{
 				try {
 					Double.parseDouble(MS.getText());
@@ -189,7 +190,7 @@ public class GameGUIControls extends MenuBar {
 				}
 			});
 			Text enterAttack = new Text("Enter Attack");
-			TextField attack = new TextField();
+			TextField attack = new TextField("5");
 			attack.textProperty().addListener((obs,old,newV)->{
 				try {
 					Double.parseDouble(attack.getText());
@@ -198,7 +199,7 @@ public class GameGUIControls extends MenuBar {
 				}
 			});
 			Text enterDefence = new Text("Enter Defence");
-			TextField Defence = new TextField();
+			TextField Defence = new TextField("5");
 			Defence.textProperty().addListener((obs,old,newV)->{
 				try {
 					Double.parseDouble(Defence.getText());
@@ -221,12 +222,13 @@ public class GameGUIControls extends MenuBar {
 
 					Statistics stats = new Statistics(att,def,hp,ms);
 					if(stats.getRateing()) {
-						gameClient= new GameClient(ip.getText());
-						stage.close();
+						gameClient= new GameClient(ip.getText(),stats);
 						new GameGUIClientControls(gameClient);
+						stage.close();
 					}
 				}catch (Exception e) {
 					// TODO: handle exception
+					e.printStackTrace();
 				}
 			});
 

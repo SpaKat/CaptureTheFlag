@@ -20,7 +20,9 @@ public class Game implements Serializable{
 
 	public void spawnPLayers() {
 		// TODO Auto-generated method stub
-
+		for (int i = 0; i < teams.size(); i++) {
+			teams.get(i).spawnPlayers();
+		}
 	}
 
 	public void checkForKill() {
@@ -85,7 +87,12 @@ public class Game implements Serializable{
 	public Team getTeam(int i) {
 		return teams.get(i);
 	}
-
+	public ArrayList<Team> getTeams() {
+		return teams;
+	}
+	public Gameboard getGameboard() {
+		return gameboard;
+	}
 	public void relocateFlags() {
 		for (int i = 0; i < teams.size(); i++) {
 			Team team = teams.get(i);

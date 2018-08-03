@@ -1,6 +1,6 @@
 package CaptureTheFlagGame;
 
-
+import Message.GameInfo;
 
 public class GameManager{
 
@@ -47,7 +47,7 @@ public class GameManager{
 		game.relocateBases();
 	}
 
-	
+
 	// ----------------------------------------- NEEDED FOR GUI ----------------------------------//
 	public int getTeams() {
 		// TODO Auto-generated method stub
@@ -59,12 +59,12 @@ public class GameManager{
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
 
-	public Object sendInfo() {
-		// TODO Auto-generated method stub
-		return null;
+	public GameInfo sendInfo() {
+		GameInfo gameInfo = new GameInfo(game.getTeams(),game.getGameboard()); 
+		return gameInfo;
 	}
 
-	
+
 
 
 
