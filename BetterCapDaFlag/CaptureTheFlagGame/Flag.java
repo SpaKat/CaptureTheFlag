@@ -2,6 +2,7 @@ package CaptureTheFlagGame;
  
 public class Flag extends GameColorObject{
 
+	private static final long serialVersionUID = -5128926934579890744L;
 	private boolean taken;
 	private double radius;
 	

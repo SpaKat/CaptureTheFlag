@@ -2,6 +2,7 @@ package CaptureTheFlagGame;
 
 public class Gameboard extends GameObject{
 
+	private static final long serialVersionUID = 1756498793750014225L;
 	private double totalOffset =0;
 
 	public Gameboard(double x, double y) {

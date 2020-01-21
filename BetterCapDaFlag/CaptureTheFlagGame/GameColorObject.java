@@ -1,6 +1,9 @@
 package CaptureTheFlagGame;
 
 public class GameColorObject extends GameObject{
+
+
+	private static final long serialVersionUID = 671338418795896493L;
 	private int color ;
 	private boolean spawned;
 	
