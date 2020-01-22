@@ -2,6 +2,7 @@ package CaptureTheFlagGame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Team implements Serializable{
@@ -12,26 +13,20 @@ public class Team implements Serializable{
 	private static final long serialVersionUID = -986900377830035185L;
 	private Flag flag;
 	private HomeBase homeBase;
-	private ArrayList<Player> players;
+	private Player players[];
 	private int color; //hex
-	private int maxPlayers;
 	private int id;
-	
+
 	public Team(int id) {
 		this.id = id;
-		players = new ArrayList<>();
 		Random rn = new Random();
 		color = rn.nextInt(0xFFFFFF+1) ;
 		flag = new Flag(color);
 		homeBase = new HomeBase(color);
-		maxPlayers = 20;
 	}
 
-	public void setMaxPlayers(int parseInt) {
-		maxPlayers = parseInt;
-	}
-	public int getMaxPlayers() {
-		return maxPlayers;
+	public void setMaxPlayers(int maxPlayers) {
+		players = new Player[maxPlayers];
 	}
 	public HomeBase getHomeBase() {
 		return homeBase;
@@ -47,25 +42,43 @@ public class Team implements Serializable{
 	}
 
 	public boolean full() {
-		boolean b = false;
-		if (players.size() >= maxPlayers) {
-			b = true;
+		boolean b = true;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] == null) {
+				b = false;
+			}
 		}
 		return b;
 	}
 
-	public void addPlayer(Player player) {
-		players.add(player);
+	public boolean addPlayer(Player player) {
+		boolean b;
+		if(full()) {
+		//	System.out.println("Team is full");
+			b = false;
+		}else {
+			boolean added = false;
+			for (int i = 0; i < players.length; i++) {
+				if (!added && players[i] == null) {
+					players[i] = player;
+					player.setColor(color);
+					added = true;
+				}
+			}
+		//	System.out.println(Arrays.toString(players));
+			b = true;
+		}
+		return b;
 	}
-	public ArrayList<Player> getPlayers() {
+	public Player[] getPlayers() {
 		return players;
 	}
 
 	public void spawnPlayers() {
-		for (int i = 0; i < players.size(); i++) {
-			if(!players.get(i).isSpawned()) {
-				players.get(i).setX(homeBase.getX());
-				players.get(i).setY(homeBase.getY());
+		for (int i = 0; i < players.length; i++) {
+			if(!players[i].isSpawned()) {
+				players[i].setX(homeBase.getX());
+				players[i].setY(homeBase.getY());
 			}
 		}
 	}

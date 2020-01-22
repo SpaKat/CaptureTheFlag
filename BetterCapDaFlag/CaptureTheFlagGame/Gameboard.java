@@ -3,7 +3,6 @@ package CaptureTheFlagGame;
 public class Gameboard extends GameObject{
 
 	private static final long serialVersionUID = 1756498793750014225L;
-	private double totalOffset =0;
 
 	public Gameboard(double x, double y) {
 		setX(x);
@@ -13,23 +12,22 @@ public class Gameboard extends GameObject{
 	protected void spawnHomeBase(HomeBase homeBase, int id) {
 		switch (id) {
 		case 0:
-			homeBase.setX(totalOffset/2);
-			homeBase.setY(totalOffset/2);
+			homeBase.setX(0);
+			homeBase.setY(0);
 			break;
 		case 1:
-			homeBase.setX(getX() - totalOffset/2);
-			homeBase.setY(getY() - totalOffset/2);
+			homeBase.setX(getX());
+			homeBase.setY(getY());
 			break;
 		case 2:
-			homeBase.setX(getX() - totalOffset/2);
-			homeBase.setY(totalOffset/2);
+			homeBase.setX(getX());
+			homeBase.setY(0);
 			break;
 		case 3:
-			homeBase.setX(totalOffset/2);
-			homeBase.setY(getY() - totalOffset/2);
+			homeBase.setX(0);
+			homeBase.setY(getY());
 			break;
 		}
-	//	System.out.println(id+ "     "+homeBase.getX() + "    " + homeBase.getY());
 	}
 
 	protected void spawnFlags(Flag flag, int id, double offset) {

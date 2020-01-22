@@ -1,20 +1,18 @@
 package CaptureTheFlagGame;
 
-import Message.GameInfo;
-
 public class GameManager{
 
 	private Gameboard Gameboard;
 	private Game game;
 
-	public GameManager(double x,double y) {
-		Gameboard = new Gameboard(x, y);
-		game = new Game(Gameboard);
+	public GameManager(Gameboard gameboard,Game game) {
+		Gameboard = gameboard;
+		this.game = game;
 	}
-
+	
 	public boolean OneTurn() {
 		//spawn
-		game.spawnPLayers();
+		game.spawnPlayers();
 		// check for kill & kill
 		game.checkForKill();
 		//check for point
@@ -33,14 +31,14 @@ public class GameManager{
 	public void setwidth(double newWidth) {
 		Gameboard.setX(newWidth);
 	}
-	public void setMaxNumofTeams(int parseInt) {
-		game.setMaxNumofTeams(parseInt);
+	public void setMaxNumofTeams(int num) {
+		game.setMaxNumofTeams(num);
 	}
-	public void setMaxPLayersPerTeam(int parseInt) {
-		game.setnumberofplayers(parseInt);
+	public void setMaxPLayersPerTeam(int num) {
+		game.setnumberofplayers(num);
 	}
-	public void setRespawnTimer(int parseInt) {
-		game.setRespawnTimer(parseInt);
+	public void setRespawnTimer(int num) {
+		game.setRespawnTimer(num);
 	}
 	public void relocatePieces() {
 		game.relocateFlags();
@@ -58,13 +56,14 @@ public class GameManager{
 		return game.getTeam(i);
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
-
+/*
 	public GameInfo sendInfo() {
 		GameInfo gameInfo = new GameInfo(game.getTeams(),game.getGameboard()); 
 		return gameInfo;
 	}
+*/
 
-
+	
 
 
 

@@ -9,6 +9,7 @@ public class Bullet extends GameColorObject {
 		speed = 50;
 		setX(x);
 		setY(y);
+		setRadius(3);
 	}
 	
 	public double getSpeed() {

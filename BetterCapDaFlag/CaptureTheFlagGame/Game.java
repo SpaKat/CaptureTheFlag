@@ -9,19 +9,20 @@ public class Game implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -365361190277582864L;
-	private ArrayList<Team> teams;
-	private int respawnTimer = 3; // in seconds
+	private Team teams[];
+	private int respawnTimer = 3000; // in millis seconds
 	private Gameboard gameboard;
 	
-	public Game(Gameboard gameboard) {
+	public Game(Gameboard gameboard, int numOfTeams, int numOfPlayers, int respawnTime) {
 		this.gameboard = gameboard;
-		teams = new ArrayList<>();
+		setMaxNumofTeams(numOfTeams);
+		setnumberofplayers(numOfPlayers);
+		setRespawnTimer(respawnTime);
 	}
-
-	public void spawnPLayers() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < teams.size(); i++) {
-			teams.get(i).spawnPlayers();
+	
+	public void spawnPlayers() {
+		for (int i = 0; i < teams.length; i++) {
+			teams[i].spawnPlayers();
 		}
 	}
 
@@ -52,18 +53,18 @@ public class Game implements Serializable{
 
 	}
 
-	public void setnumberofplayers(int parseInt) {
-		for (int i = 0; i < teams.size(); i++) {
-			teams.get(i).setMaxPlayers(parseInt);
+	public void setnumberofplayers(int num) {
+		for (int i = 0; i < teams.length; i++) {
+			teams[i].setMaxPlayers(num);
 		}
 	}
 
-	public void setMaxNumofTeams(int parseInt) {
-		teams.clear();
-		for (int i = 0; i < parseInt; i++) {
+	public void setMaxNumofTeams(int num) {
+		teams = new Team[num];
+		for (int i = 0; i < num; i++) {
 			Team team = new Team(i);
 			gameboard.spawnHomeBase(team.getHomeBase(),team.getId());
-			teams.add(team);
+			teams[i] = team;
 		}
 	}
 
@@ -75,27 +76,27 @@ public class Game implements Serializable{
 	}
 
 	public void relocateBases() {
-		for (int i = 0; i < teams.size(); i++) {
-			Team team = teams.get(i);
+		for (int i = 0; i < teams.length; i++) {
+			Team team = teams[i];
 			gameboard.spawnHomeBase(team.getHomeBase(),team.getId());
 		}
 	}
 	public int numOfTeams() {
-		return teams.size();
+		return teams.length;
 	}
 
 	public Team getTeam(int i) {
-		return teams.get(i);
+		return teams[i];
 	}
-	public ArrayList<Team> getTeams() {
+	public Team[] getTeams() {
 		return teams;
 	}
 	public Gameboard getGameboard() {
 		return gameboard;
 	}
 	public void relocateFlags() {
-		for (int i = 0; i < teams.size(); i++) {
-			Team team = teams.get(i);
+		for (int i = 0; i < teams.length; i++) {
+			Team team = teams[i];
 			if(team.getFlag().isSpawned()){
 				//TODO
 			}else {
