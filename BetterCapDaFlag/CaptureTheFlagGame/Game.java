@@ -1,7 +1,6 @@
 package CaptureTheFlagGame;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Game implements Serializable{
 
@@ -10,8 +9,9 @@ public class Game implements Serializable{
 	 */
 	private static final long serialVersionUID = -365361190277582864L;
 	private Team teams[];
-	private int respawnTimer = 3000; // in millis seconds
+	private long respawnTimer = 3000; // in millis seconds
 	private Gameboard gameboard;
+	private int winningScore = 1;
 	
 	public Game(Gameboard gameboard, int numOfTeams, int numOfPlayers, int respawnTime) {
 		this.gameboard = gameboard;
@@ -22,14 +22,17 @@ public class Game implements Serializable{
 	
 	public void spawnPlayers() {
 		for (int i = 0; i < teams.length; i++) {
-			teams[i].spawnPlayers();
+			teams[i].spawnPlayers(gameboard);
 		}
 	}
 
 	public void checkForKill() {
-		// TODO Auto-generated method stub
-
-
+		//check for bullet hit
+		
+		// check for dies players
+		for (int i = 0; i < teams.length; i++) {
+			teams[i].checkForDiedPlayers();
+		}
 	}
 
 	public void checkForPoint() {
@@ -39,18 +42,26 @@ public class Game implements Serializable{
 
 	public void move() {
 		// TODO Auto-generated method stub
+		//move bullets
+		//move players
+		
 
 	}
 
 	public boolean checkForWin() {
-		// TODO Auto-generated method stub
-
-		return false;
+		boolean winner = false;
+		for (int i = 0; i < teams.length; i++) {
+			if (teams[i].getScore() >= winningScore ) {
+				winner = true;
+			}
+		}
+		return winner;
 	}
 
 	public void respawn() {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < teams.length; i++) {
+			teams[i].respawnPlayers(gameboard,respawnTimer);
+		}
 	}
 
 	public void setnumberofplayers(int num) {
@@ -63,7 +74,7 @@ public class Game implements Serializable{
 		teams = new Team[num];
 		for (int i = 0; i < num; i++) {
 			Team team = new Team(i);
-			gameboard.spawnHomeBase(team.getHomeBase(),team.getId());
+			gameboard.spawnGameColorObject(team.getHomeBase(),team.getId(),0);
 			teams[i] = team;
 		}
 	}
@@ -71,14 +82,14 @@ public class Game implements Serializable{
 	public void setRespawnTimer(int respawnTimer) {
 		this.respawnTimer = respawnTimer;
 	}
-	public int getRespawnTimer() {
+	public long getRespawnTimer() {
 		return respawnTimer;
 	}
 
 	public void relocateBases() {
 		for (int i = 0; i < teams.length; i++) {
 			Team team = teams[i];
-			gameboard.spawnHomeBase(team.getHomeBase(),team.getId());
+			gameboard.spawnGameColorObject(team.getHomeBase(),team.getId(),0);
 		}
 	}
 	public int numOfTeams() {
@@ -94,13 +105,19 @@ public class Game implements Serializable{
 	public Gameboard getGameboard() {
 		return gameboard;
 	}
+	public void setWinningScore(int winningScore) {
+		this.winningScore = winningScore;
+	}
+	public int getWinningScore() {
+		return winningScore;
+	}
 	public void relocateFlags() {
 		for (int i = 0; i < teams.length; i++) {
 			Team team = teams[i];
 			if(team.getFlag().isSpawned()){
 				//TODO
 			}else {
-				gameboard.spawnFlags(team.getFlag(),team.getId(),team.getHomeBase().getRadius());
+				gameboard.spawnGameColorObject(team.getFlag(),team.getId(),team.getHomeBase().getRadius());
 				team.getFlag().setSpawned(true);
 			}
 		}

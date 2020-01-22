@@ -11,12 +11,15 @@ public class Statistics implements Serializable{
 	private double attack;
 	private double defense;
 	private double health;
+	private double MAXhealth;
 	private double movespeed;
 	private final double MAXRATING = 100;
+	
 	public Statistics(double attack,double defense,double health,double movespeed) {
 		this.attack = attack;
 		this.defense = defense;
 		this.health = health;
+		MAXhealth = health;
 		this.movespeed = movespeed;
 	}
 	public boolean getRateing() {
@@ -38,5 +41,11 @@ public class Statistics implements Serializable{
 	}
 	public double getMovespeed() {
 		return movespeed;
+	}
+	public void fullHealth() {
+		health = MAXhealth;
+	}
+	public void takeDamage(double damage) {
+		health = health - (attack-defense/2);
 	}
 }

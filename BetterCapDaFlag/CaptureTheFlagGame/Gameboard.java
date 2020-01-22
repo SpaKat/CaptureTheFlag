@@ -8,45 +8,23 @@ public class Gameboard extends GameObject{
 		setX(x);
 		setY(y);
 	}
-
-	protected void spawnHomeBase(HomeBase homeBase, int id) {
+	protected void spawnGameColorObject(GameColorObject gco, int id, double offset) {
 		switch (id) {
 		case 0:
-			homeBase.setX(0);
-			homeBase.setY(0);
+			gco.setX(offset);
+			gco.setY(offset);
 			break;
 		case 1:
-			homeBase.setX(getX());
-			homeBase.setY(getY());
+			gco.setX(getX() - offset);
+			gco.setY(getY() - offset);
 			break;
 		case 2:
-			homeBase.setX(getX());
-			homeBase.setY(0);
+			gco.setX(getX() - offset);
+			gco.setY(offset);
 			break;
 		case 3:
-			homeBase.setX(0);
-			homeBase.setY(getY());
-			break;
-		}
-	}
-
-	protected void spawnFlags(Flag flag, int id, double offset) {
-		switch (id) {
-		case 0:
-			flag.setX(offset);
-			flag.setY(offset);
-			break;
-		case 1:
-			flag.setX(getX() - offset);
-			flag.setY(getY() - offset);
-			break;
-		case 2:
-			flag.setX(getX() - offset);
-			flag.setY(offset);
-			break;
-		case 3:
-			flag.setX(offset);
-			flag.setY(getY() - offset);
+			gco.setX(offset);
+			gco.setY(getY() - offset);
 			break;
 		}
 	}

@@ -1,27 +1,29 @@
 package CaptureTheFlagGame;
 
 public class Player extends GameColorObject{
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4249695451161564331L;
 	private double heading; // tan2
 	private Statistics stats; //Customized
-	
+	private boolean respawning = false;
+	private long diedAt; 
+
 	public Player(Statistics stats/*,int color*/) {
 		this.stats = stats;
 		/*setColor(color);*/
 		setRadius(10);
 	}
-	
+
 	public boolean isDied() {
 		boolean died = false;
 		if (stats.getHealth()<=0) {
 			died = true;
 		}
 		return died;
-	
+
 	}
 	public double getHeading() {
 		return heading;
@@ -32,8 +34,32 @@ public class Player extends GameColorObject{
 	public Statistics getStats() {
 		return stats;
 	}
+	public void setRespawning(boolean respawn) {
+		respawning = respawn;
+	}
+	public boolean isRespawning() {
+		return respawning;
+	}
 	@Override
 	public String toString() {
 		return "p   ";
+	}
+
+	public void diedAt() {
+		diedAt = System.currentTimeMillis();
+		setX(-1000);
+		setY(-1000);
+	}
+
+	public boolean readyToRespawn(long respawnTimer) {
+		boolean b = false;
+		if (Math.abs(diedAt - System.currentTimeMillis()) > respawnTimer) {
+			b = true;	
+		}
+		return b;
+	}
+
+	public void fullHealth() {
+		stats.fullHealth();
 	}
 }
