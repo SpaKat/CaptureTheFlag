@@ -108,4 +108,20 @@ public class Team implements Serializable{
 			}
 		}
 	}
+
+	public void checkBullets(Team team) {
+		Player[] enemys = team.getPlayers();
+		for (int i = 0; i < players.length; i++) {
+			for (int j = 0; j < enemys.length; j++) {
+				Bullet[] enemybullets = enemys[j].getBullets();
+				for (int k = 0; k < enemybullets.length; k++) {
+					if (enemybullets[k] != null) {
+						if (Calculations.distance(players[i], enemybullets[k]) <= Calculations.combineRadius(players[i], enemybullets[k])) {
+							players[i].getStats().takeDamage(enemybullets[k].getDamage());
+						}
+					}
+				}
+			}
+		}
+	}
 }

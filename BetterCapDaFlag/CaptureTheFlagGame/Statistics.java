@@ -46,6 +46,6 @@ public class Statistics implements Serializable{
 		health = MAXhealth;
 	}
 	public void takeDamage(double damage) {
-		health = health - (attack-defense/2);
+		health = health - (damage-defense/2);
 	}
 }

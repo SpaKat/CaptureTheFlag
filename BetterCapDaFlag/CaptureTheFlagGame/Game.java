@@ -28,7 +28,11 @@ public class Game implements Serializable{
 
 	public void checkForKill() {
 		//check for bullet hit
-		
+		for (int i = 0; i < teams.length; i++) {
+			for (int j = i+1; j < teams.length; j++) {
+				teams[i].checkBullets(teams[j]);
+			}
+		}
 		// check for dies players
 		for (int i = 0; i < teams.length; i++) {
 			teams[i].checkForDiedPlayers();

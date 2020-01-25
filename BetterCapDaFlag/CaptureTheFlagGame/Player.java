@@ -10,11 +10,12 @@ public class Player extends GameColorObject{
 	private Statistics stats; //Customized
 	private boolean respawning = false;
 	private long diedAt; 
-
+	private Bullet[] bullets;
 	public Player(Statistics stats/*,int color*/) {
 		this.stats = stats;
 		/*setColor(color);*/
 		setRadius(10);
+		bullets = new Bullet[1];
 	}
 
 	public boolean isDied() {
@@ -40,6 +41,12 @@ public class Player extends GameColorObject{
 	public boolean isRespawning() {
 		return respawning;
 	}
+	public void setBullets(Bullet[] bullets) {
+		this.bullets = bullets;
+	}
+	public Bullet[] getBullets() {
+		return bullets;
+	}
 	@Override
 	public String toString() {
 		return "p   ";
@@ -53,7 +60,7 @@ public class Player extends GameColorObject{
 
 	public boolean readyToRespawn(long respawnTimer) {
 		boolean b = false;
-		if (Math.abs(diedAt - System.currentTimeMillis()) > respawnTimer) {
+		if (Math.abs(diedAt - System.currentTimeMillis()) >= respawnTimer) {
 			b = true;	
 		}
 		return b;

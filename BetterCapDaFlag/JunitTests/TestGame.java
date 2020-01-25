@@ -64,6 +64,37 @@ class TestGame {
 		
 	}
 	
+	@Test
+	void Respawnplayers() {
+		
+		game.spawnPlayers();
+		
+		Team[] teams = game.getTeams();
+		for (int i = 0; i < teams.length; i++) {
+			Player[] players = teams[i].getPlayers();
+			for (int j = 0; j < players.length; j++) {
+				players[j].getStats().takeDamage(1000000);
+			}
+		}
+		try {
+			game.checkForKill();
+			Thread.sleep(game.getRespawnTimer());
+			game.respawn();
+			for (int i = 0; i < teams.length; i++) {
+				Player[] players = teams[i].getPlayers();
+				for (int j = 0; j < players.length; j++) {
+					assertEquals(false, players[j].isDied());
+					
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
 	
 
 }
