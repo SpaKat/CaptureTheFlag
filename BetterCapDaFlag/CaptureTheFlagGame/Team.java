@@ -118,10 +118,37 @@ public class Team implements Serializable{
 					if (enemybullets[k] != null) {
 						if (Calculations.distance(players[i], enemybullets[k]) <= Calculations.combineRadius(players[i], enemybullets[k])) {
 							players[i].getStats().takeDamage(enemybullets[k].getDamage());
+							enemybullets[k].setDied(true);
 						}
 					}
 				}
 			}
 		}
+	}
+
+	public void moveFlag() {
+		flag.move();
+	}
+
+	public void movePlayers() {
+		for (int i = 0; i < players.length; i++) {
+			players[i].move();
+		}
+	}
+
+	public void moveBullets() {
+		for (int i = 0; i < players.length; i++) {
+			players[i].bullets();
+		}
+	}
+
+	public void cleanDiedBullets() {
+		for (int i = 0; i < players.length; i++) {
+			players[i].cleanDiedBullets();
+		}
+	}
+
+	public void scored() {
+		score++;
 	}
 }

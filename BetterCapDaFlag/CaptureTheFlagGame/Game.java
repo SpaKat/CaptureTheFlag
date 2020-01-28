@@ -40,16 +40,39 @@ public class Game implements Serializable{
 	}
 
 	public void checkForPoint() {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < teams.length; i++) {
+			Flag flag = teams[i].getFlag();
+			for (int j = i+1; j < teams.length; j++) {
+				if (flag.isTaken()) {
+					if (Calculations.distance(teams[j].getHomeBase(), flag) < Calculations.combineRadius(teams[j].getHomeBase(), flag)) {
+						flag.reset();
+						teams[j].scored();
+						gameboard.spawnGameColorObject(teams[j].getFlag(),teams[j].getId(),teams[j].getHomeBase().getRadius());
+					}
+				}
+			}
+		}
 	}
 
 	public void move() {
-		// TODO Auto-generated method stub
-		//move bullets
-		//move players
 		
+		for (int i = 0; i < teams.length; i++) {
+		//move bullets
+			teams[i].moveBullets();
+		//move players
+			teams[i].movePlayers();
+		//move flags
+			teams[i].moveFlag();
+		}
 
+	}
+	
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		//remove died bullets
+		for (int i = 0; i < teams.length; i++) {
+			teams[i].cleanDiedBullets();
+		}
 	}
 
 	public boolean checkForWin() {
@@ -119,12 +142,18 @@ public class Game implements Serializable{
 		for (int i = 0; i < teams.length; i++) {
 			Team team = teams[i];
 			if(team.getFlag().isSpawned()){
-				//TODO
+				if(team.getFlag().isTaken()) {
+					// Do nothing for now
+				}else {
+					gameboard.spawnGameColorObject(team.getFlag(),team.getId(),team.getHomeBase().getRadius());
+				}
 			}else {
 				gameboard.spawnGameColorObject(team.getFlag(),team.getId(),team.getHomeBase().getRadius());
 				team.getFlag().setSpawned(true);
 			}
 		}
 	}
+
+
 
 }

@@ -24,7 +24,7 @@ class TestGame {
 		for (int i = 0; i < game.getTeams().length; i++) {
 			Team t = game.getTeam(i);
 			for (int j = 0; j < 20; j++) {
-				t.getPlayers()[j] = new Player(new Statistics(1, 1, 1, 1));
+				t.getPlayers()[j] = new Player(new Statistics(1, 1, 1, 1),1);
 			}
 		}
 	}

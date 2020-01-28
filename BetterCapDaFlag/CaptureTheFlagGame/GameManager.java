@@ -21,6 +21,8 @@ public class GameManager{
 		game.move();
 		// respawn
 		game.respawn();
+		// clean up
+		game.cleanUp();
 		// check for win
 		return game.checkForWin();
 	}

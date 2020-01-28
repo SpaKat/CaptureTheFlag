@@ -18,6 +18,7 @@ public class Bullet extends GameColorObject {
 		this.range = range;
 		this.heading = heading;
 		this.damage = damage;
+		setSpawned(true);
 	}
 	
 	public double getSpeed() {
@@ -34,7 +35,13 @@ public class Bullet extends GameColorObject {
 	}
 
 	public double getDamage() {
-		// TODO Auto-generated method stub
 		return damage;
+	}
+	public void move() {
+		Calculations.move(speed, heading, this);
+		range -= Calculations.unitsMoved(speed, heading);
+		if (range <= 0 ) {
+			setDied(false);
+		}
 	}
 }

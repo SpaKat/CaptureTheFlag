@@ -11,9 +11,9 @@ public class Player extends GameColorObject{
 	private boolean respawning = false;
 	private long diedAt; 
 	private Bullet[] bullets;
-	public Player(Statistics stats/*,int color*/) {
+	public Player(Statistics stats,int color) {
 		this.stats = stats;
-		/*setColor(color);*/
+		setColor(color);
 		setRadius(10);
 		bullets = new Bullet[1];
 	}
@@ -47,11 +47,6 @@ public class Player extends GameColorObject{
 	public Bullet[] getBullets() {
 		return bullets;
 	}
-	@Override
-	public String toString() {
-		return "p   ";
-	}
-
 	public void diedAt() {
 		diedAt = System.currentTimeMillis();
 		setX(-1000);
@@ -68,5 +63,28 @@ public class Player extends GameColorObject{
 
 	public void fullHealth() {
 		stats.fullHealth();
+	}
+
+	public void move() {
+		Calculations.move(stats.getMovespeed(), heading, this);
+	}
+
+	public void bullets() {
+		for (int i = 0; i < bullets.length; i++) {
+			bullets[i].move();
+		}
+	}
+
+	public void cleanDiedBullets() {
+		for (int i = 0; i < bullets.length; i++) {
+			try{
+				if (bullets[i].isDied()) {
+					bullets[i] = null;
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("player cleanDiedBullets()");
+			}
+		}
 	}
 }
