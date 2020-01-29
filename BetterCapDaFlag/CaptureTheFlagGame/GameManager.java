@@ -33,15 +33,6 @@ public class GameManager{
 	public void setwidth(double newWidth) {
 		Gameboard.setX(newWidth);
 	}
-	public void setMaxNumofTeams(int num) {
-		game.setMaxNumofTeams(num);
-	}
-	public void setMaxPLayersPerTeam(int num) {
-		game.setnumberofplayers(num);
-	}
-	public void setRespawnTimer(int num) {
-		game.setRespawnTimer(num);
-	}
 	public void relocatePieces() {
 		game.relocateFlags();
 		game.relocateBases();
@@ -49,13 +40,12 @@ public class GameManager{
 
 
 	// ----------------------------------------- NEEDED FOR GUI ----------------------------------//
-	public int getTeams() {
-		// TODO Auto-generated method stub
-		return game.numOfTeams();
+	public Team[] getTeams() {
+		return game.getTeams();
 	}
-
-	public Team getTeam(int i) {
-		return game.getTeam(i);
+	public void addPlayer(Player player) {
+		System.out.println(game.getTeam(0).addPlayer(player));
+		
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
 /*
@@ -64,6 +54,8 @@ public class GameManager{
 		return gameInfo;
 	}
 */
+
+	
 
 	
 

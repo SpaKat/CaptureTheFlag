@@ -1,6 +1,7 @@
 package CaptureTheFlagGame;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Team implements Serializable{
@@ -60,7 +61,7 @@ public class Team implements Serializable{
 	public boolean addPlayer(Player player) {
 		boolean b;
 		if(full()) {
-			//	System.out.println("Team is full");
+				System.out.println("Team is full");
 			b = false;
 		}else {
 			boolean added = false;
@@ -71,8 +72,8 @@ public class Team implements Serializable{
 					added = true;
 				}
 			}
-			//	System.out.println(Arrays.toString(players));
-			b = true;
+				System.out.println(Arrays.toString(players));
+			b = added;
 		}
 		return b;
 	}
@@ -82,9 +83,14 @@ public class Team implements Serializable{
 
 	public void spawnPlayers(Gameboard gameboard) {
 		for (int i = 0; i < players.length; i++) {
-			if(!players[i].isSpawned()) {
-				double rnd = Math.random()*homeBase.getRadius();
-				gameboard.spawnGameColorObject(players[i], id, rnd);
+			try {
+				if(!players[i].isSpawned()) {
+					double rnd = Math.random()*homeBase.getRadius();
+					gameboard.spawnGameColorObject(players[i], id, rnd);
+					players[i].setSpawned(true);
+				}
+			}catch (Exception e) {
+				System.err.println("Player "+ i+" does not exist in team " + id);;
 			}
 		}
 	}

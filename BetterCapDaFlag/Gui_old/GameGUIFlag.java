@@ -1,4 +1,4 @@
-package Gui;
+package Gui_old;
 import CaptureTheFlagGame.Flag;
 import Gui.ColorHexConveter;
 import javafx.scene.shape.Circle;

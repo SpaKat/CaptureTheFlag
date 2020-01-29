@@ -1,12 +1,13 @@
 package Gui;
 import CaptureTheFlagGame.Player;
+import Gui.ColorHexConveter;
 import javafx.scene.shape.Circle;
 
-public class GameGUIPlayers extends Circle {
+public class GameGUIPlayer extends Circle {
 	
 	private Player player;
 	
-	public GameGUIPlayers(Player player) {
+	public GameGUIPlayer(Player player) {
 		this.player = player;
 		setRadius(player.getRadius());
 		setStyle("-fx-fill: "+new ColorHexConveter(player.getColor()));

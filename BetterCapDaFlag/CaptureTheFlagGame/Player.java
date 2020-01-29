@@ -11,11 +11,12 @@ public class Player extends GameColorObject{
 	private boolean respawning = false;
 	private long diedAt; 
 	private Bullet[] bullets;
-	public Player(Statistics stats,int color) {
+	private boolean connected;
+	public Player(Statistics stats) {
 		this.stats = stats;
-		setColor(color);
 		setRadius(10);
 		bullets = new Bullet[1];
+		connected = true;
 	}
 
 	public boolean isDied() {
@@ -60,7 +61,11 @@ public class Player extends GameColorObject{
 		}
 		return b;
 	}
-
+	@Override
+	public String toString() {
+		
+		return "p____";
+	}
 	public void fullHealth() {
 		stats.fullHealth();
 	}
@@ -86,5 +91,11 @@ public class Player extends GameColorObject{
 				System.err.println("player cleanDiedBullets()");
 			}
 		}
+	}
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+	public boolean isConnected() {
+		return connected;
 	}
 }

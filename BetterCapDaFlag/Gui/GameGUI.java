@@ -1,49 +1,79 @@
 package Gui;
 
+import java.util.ArrayList;
 
 import CaptureTheFlagGame.GameManager;
-import javafx.application.Application;
+import CaptureTheFlagGame.Player;
+import CaptureTheFlagGame.Statistics;
+import CaptureTheFlagGame.Team;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-public class GameGUI extends Application {
+public class GameGUI extends Pane {
 
+	private ArrayList<GameGUITeam> guiTeams;
+	private GameManager gm;
 	
-	private BorderPane mainBorderPane;
-	private GameManager gameManager;
-	private GameBoardPane gameBoardPane;
-	private GameGUIControls controls;
-	
-	public GameGUI() {
-		double startX = 300;
-		double startY = 300;
-		gameManager = new GameManager(startX, startY);
-		gameBoardPane = new GameBoardPane(gameManager);
-		mainBorderPane = new BorderPane(gameBoardPane);
-		controls = new GameGUIControls(gameManager,gameBoardPane);
-		mainBorderPane.setTop(controls);
-		gameBoardPane.setPrefWidth(startX);
-		gameBoardPane.setPrefHeight(startY);
-		gameBoardPane.autosize();
-	}
-	
-	
-	@Override
-	public void start(Stage stage){
-		stage.setTitle("Capture The Flag");
-		stage.setOnCloseRequest(close ->{
-			controls.close();
+	public GameGUI(GameManager gm) {
+		this.gm = gm;
+		gm.relocatePieces();
+		//TODO
+		tester();
+		
+		setStyle("-fx-background-color: black");
+		guiTeams = new ArrayList<>();
+		Team teams[] = gm.getTeams();
+		for (int i = 0; i < teams.length; i++) {
+			guiTeams.add(new GameGUITeam(teams[i], this));
+		}
+		
+		widthProperty().addListener(  (obs,old,newV ) -> {
+			gm.setwidth(newV.doubleValue());
+			gm.relocatePieces();
+			guiTeams.forEach(team->team.relocate());
 		});
-		Scene scene = new Scene(mainBorderPane);
+		heightProperty().addListener(  (obs,old,newV ) -> {
+			gm.setheight(newV.doubleValue());
+			gm.relocatePieces();
+			guiTeams.forEach(team->team.relocate());
+		});
+	}
+
+	private void tester() {
+		// TODO Auto-generated method stub
+		
+		
+		Stage stage = new Stage();
+		VBox vb = new VBox();
+		vb.getChildren().add(testgmtaketurn());
+		vb.getChildren().add(testspawnplayer());
+		Scene scene = new Scene(new ScrollPane(vb) );
 		stage.setScene(scene);
-		stage.initStyle(StageStyle.DECORATED);
-		stage.centerOnScreen();
 		stage.show();
+		
+	}
+
+	private Button testgmtaketurn() {
+		Button takeoneturn = new Button("Take one Game manager turn");
+		
+		takeoneturn.setOnAction(e->{
+			gm.OneTurn();
+		});
+		
+		return takeoneturn ;
+	}
+
+	private Button testspawnplayer() {
+		Button spawnplayer = new Button("Spawn Player on team 0");
+		spawnplayer.setOnAction(e->{
+			gm.addPlayer(new Player(new Statistics(1, 1, 1, 1)));	
+		});
+		return spawnplayer ;
 	}
 	
-	public static void main(String[] args) {
-		launch(args);
-	}
 }

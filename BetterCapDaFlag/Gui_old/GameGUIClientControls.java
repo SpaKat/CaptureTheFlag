@@ -1,6 +1,7 @@
-package Gui;
+package Gui_old;
 import CaptureTheFlagGame.Team;
 import Client.GameClient;
+import Gui.ColorHexConveter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
