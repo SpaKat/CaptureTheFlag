@@ -76,7 +76,11 @@ public class Player extends GameColorObject{
 
 	public void bullets() {
 		for (int i = 0; i < bullets.length; i++) {
+			try {
 			bullets[i].move();
+			}catch (Exception e) {
+				System.err.println("Can't Move non esisting bullets");
+			}
 		}
 	}
 

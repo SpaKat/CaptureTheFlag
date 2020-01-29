@@ -61,7 +61,7 @@ public class Team implements Serializable{
 	public boolean addPlayer(Player player) {
 		boolean b;
 		if(full()) {
-				System.out.println("Team is full");
+			System.out.println("Team is full");
 			b = false;
 		}else {
 			boolean added = false;
@@ -72,7 +72,7 @@ public class Team implements Serializable{
 					added = true;
 				}
 			}
-				System.out.println(Arrays.toString(players));
+			System.out.println(Arrays.toString(players));
 			b = added;
 		}
 		return b;
@@ -98,19 +98,28 @@ public class Team implements Serializable{
 	public void checkForDiedPlayers() {
 
 		for (int i = 0; i < players.length; i++) {
-			if(players[i].isDied() && ! players[i].isRespawning()) {
-				players[i].setRespawning(true);
-				players[i].diedAt();
+			try {
+				if(players[i].isDied() && ! players[i].isRespawning()) {
+					players[i].setRespawning(true);
+					players[i].diedAt();
+				}
+			}catch (Exception e) {
+				System.err.println("Missing player for the check of a died player");
 			}
 		}
+
 	}
 
 	public void respawnPlayers(Gameboard gameboard, long respawnTimer) {
 		for (int i = 0; i < players.length; i++) {
-			if (players[i].isRespawning() && players[i].readyToRespawn(respawnTimer)) {
-				players[i].setRespawning(false);
-				players[i].fullHealth();
-				gameboard.spawnGameColorObject(players[i], id, Math.random()*homeBase.getRadius());
+			try {
+				if (players[i].isRespawning() && players[i].readyToRespawn(respawnTimer)) {
+					players[i].setRespawning(false);
+					players[i].fullHealth();
+					gameboard.spawnGameColorObject(players[i], id, Math.random()*homeBase.getRadius());
+				}
+			}catch (Exception e) {
+				System.err.println("Cant respawn missing players");
 			}
 		}
 	}
@@ -119,38 +128,55 @@ public class Team implements Serializable{
 		Player[] enemys = team.getPlayers();
 		for (int i = 0; i < players.length; i++) {
 			for (int j = 0; j < enemys.length; j++) {
-				Bullet[] enemybullets = enemys[j].getBullets();
-				for (int k = 0; k < enemybullets.length; k++) {
-					if (enemybullets[k] != null) {
-						if (Calculations.distance(players[i], enemybullets[k]) <= Calculations.combineRadius(players[i], enemybullets[k])) {
-							players[i].getStats().takeDamage(enemybullets[k].getDamage());
-							enemybullets[k].setDied(true);
+				try {
+					Bullet[] enemybullets = enemys[j].getBullets();
+					for (int k = 0; k < enemybullets.length; k++) {
+						try {
+							if (Calculations.distance(players[i], enemybullets[k]) <= Calculations.combineRadius(players[i], enemybullets[k])) {
+								players[i].getStats().takeDamage(enemybullets[k].getDamage());
+								enemybullets[k].setDied(true);
+							}
+						}catch (Exception e) {
+							System.err.println("Player does not have bullet " +k);
 						}
 					}
+				}catch (Exception e) {
+					System.err.println("Missing Player thus missing Bullets");
 				}
 			}
 		}
 	}
-
 	public void moveFlag() {
 		flag.move();
 	}
 
 	public void movePlayers() {
 		for (int i = 0; i < players.length; i++) {
-			players[i].move();
+			try {
+				players[i].move();
+			}catch (Exception e) {
+				System.err.println("Cant Move missing player");
+			}
 		}
 	}
 
 	public void moveBullets() {
 		for (int i = 0; i < players.length; i++) {
-			players[i].bullets();
+			try {
+				players[i].bullets();
+			}catch (Exception e) {
+				System.err.println("Cant Move bullets from a missing player");
+			}
 		}
 	}
 
 	public void cleanDiedBullets() {
 		for (int i = 0; i < players.length; i++) {
-			players[i].cleanDiedBullets();
+			try {
+				players[i].cleanDiedBullets();
+			}catch (Exception e) {
+				System.err.println("CAnt clean missing bullets");
+			}
 		}
 	}
 
