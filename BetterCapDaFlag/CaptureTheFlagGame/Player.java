@@ -91,7 +91,6 @@ public class Player extends GameColorObject{
 					bullets[i] = null;
 				}
 			}catch (Exception e) {
-				e.printStackTrace();
 				System.err.println("player cleanDiedBullets()");
 			}
 		}

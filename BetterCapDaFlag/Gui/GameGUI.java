@@ -18,7 +18,7 @@ public class GameGUI extends Pane {
 
 	private ArrayList<GameGUITeam> guiTeams;
 	private GameManager gm;
-	
+
 	public GameGUI(GameManager gm) {
 		this.gm = gm;
 		gm.relocatePieces();
@@ -52,6 +52,7 @@ public class GameGUI extends Pane {
 		VBox vb = new VBox();
 		vb.getChildren().add(testgmtaketurn());
 		vb.getChildren().add(testspawnplayer());
+		vb.getChildren().add(testGameThreads());
 		Scene scene = new Scene(new ScrollPane(vb) );
 		stage.setScene(scene);
 		stage.show();
@@ -74,6 +75,14 @@ public class GameGUI extends Pane {
 			gm.addPlayer(new Player(new Statistics(1, 1, 1, 1)));	
 		});
 		return spawnplayer ;
+	}
+	
+	private Button testGameThreads() {
+		Button gameThreads = new Button("run game threads");
+		gameThreads.setOnAction(e->{
+			
+		});
+		return gameThreads;
 	}
 	
 }
