@@ -11,3 +11,6 @@
 /Start.class
 /GameGUITeam.class
 /GameGUIPlayer.class
+/GameGUIRunnable.class
+/GameGUIRunnable$1.class
+/GameGUITeamComparator.class

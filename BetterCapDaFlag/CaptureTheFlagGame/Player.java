@@ -72,6 +72,8 @@ public class Player extends GameColorObject{
 
 	public void move() {
 		Calculations.move(stats.getMovespeed(), heading, this);
+		heading += Math.PI/180;
+		
 	}
 
 	public void bullets() {
@@ -79,7 +81,7 @@ public class Player extends GameColorObject{
 			try {
 			bullets[i].move();
 			}catch (Exception e) {
-				System.err.println("Can't Move non esisting bullets");
+				//System.err.println("Can't Move non esisting bullets");
 			}
 		}
 	}
@@ -91,7 +93,7 @@ public class Player extends GameColorObject{
 					bullets[i] = null;
 				}
 			}catch (Exception e) {
-				System.err.println("player cleanDiedBullets()");
+			//	System.err.println("player cleanDiedBullets()");
 			}
 		}
 	}
@@ -100,5 +102,13 @@ public class Player extends GameColorObject{
 	}
 	public boolean isConnected() {
 		return connected;
+	}
+	
+	public boolean same(Player o) {
+		boolean b = false;
+		if (o.getX() == getX() && o.getY() == getY()) {
+			b = true;
+		}
+		return b;
 	}
 }

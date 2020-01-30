@@ -61,7 +61,7 @@ public class Team implements Serializable{
 	public boolean addPlayer(Player player) {
 		boolean b;
 		if(full()) {
-			System.out.println("Team is full");
+			//System.out.println("Team is full");
 			b = false;
 		}else {
 			boolean added = false;
@@ -72,7 +72,7 @@ public class Team implements Serializable{
 					added = true;
 				}
 			}
-			System.out.println(Arrays.toString(players));
+			//System.out.println(Arrays.toString(players));
 			b = added;
 		}
 		return b;
@@ -90,7 +90,7 @@ public class Team implements Serializable{
 					players[i].setSpawned(true);
 				}
 			}catch (Exception e) {
-				System.err.println("Player "+ i+" does not exist in team " + id);;
+			//	System.err.println("Player "+ i+" does not exist in team " + id);;
 			}
 		}
 	}
@@ -104,7 +104,7 @@ public class Team implements Serializable{
 					players[i].diedAt();
 				}
 			}catch (Exception e) {
-				System.err.println("Missing player for the check of a died player");
+				//System.err.println("Missing player for the check of a died player");
 			}
 		}
 
@@ -119,7 +119,7 @@ public class Team implements Serializable{
 					gameboard.spawnGameColorObject(players[i], id, Math.random()*homeBase.getRadius());
 				}
 			}catch (Exception e) {
-				System.err.println("Cant respawn missing players");
+			//	System.err.println("Cant respawn missing players");
 			}
 		}
 	}
@@ -137,11 +137,11 @@ public class Team implements Serializable{
 								enemybullets[k].setDied(true);
 							}
 						}catch (Exception e) {
-							System.err.println("Player does not have bullet " +k);
+							//System.err.println("Player does not have bullet " +k);
 						}
 					}
 				}catch (Exception e) {
-					System.err.println("Missing Player thus missing Bullets");
+				//	System.err.println("Missing Player thus missing Bullets");
 				}
 			}
 		}
@@ -155,7 +155,7 @@ public class Team implements Serializable{
 			try {
 				players[i].move();
 			}catch (Exception e) {
-				System.err.println("Cant Move missing player");
+				//System.err.println("Cant Move missing player");
 			}
 		}
 	}
@@ -165,7 +165,7 @@ public class Team implements Serializable{
 			try {
 				players[i].bullets();
 			}catch (Exception e) {
-				System.err.println("Cant Move bullets from a missing player");
+				//System.err.println("Cant Move bullets from a missing player");
 			}
 		}
 	}
@@ -175,12 +175,22 @@ public class Team implements Serializable{
 			try {
 				players[i].cleanDiedBullets();
 			}catch (Exception e) {
-				System.err.println("CAnt clean missing bullets");
+				//System.err.println("CAnt clean missing bullets");
 			}
 		}
 	}
 
 	public void scored() {
 		score++;
+	}
+
+	public void grabFlag(Flag flag) {
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null) {
+				if (Calculations.distance(players[i], flag) < Calculations.combineRadius(flag, players[i])) {
+					flag.grabed(players[i]);
+				}
+			}
+		}
 	}
 }

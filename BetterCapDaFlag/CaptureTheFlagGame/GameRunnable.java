@@ -4,7 +4,7 @@ public class GameRunnable implements Runnable{
 
 	private GameManager gm;
 	private boolean running;
-	private long updateInterval = 20;
+	private long updateInterval = 16;
 	public GameRunnable(GameManager gm) {
 		this.gm = gm;
 		running = true;
@@ -13,14 +13,16 @@ public class GameRunnable implements Runnable{
 
 	@Override
 	public void run() {
-		while(gm.OneTurn() && running) {
+		while(!gm.OneTurn() && running) {
 			try {
 				Thread.sleep(updateInterval);
 			} catch (Exception e) {
-				System.err.println("GameRunnable woke up");
+			//	System.err.println("GameRunnable woke up");
 			}
 		}
-		System.out.println("Game Update Thread over");
+		//System.out.println("Game Update Thread over");
 	}
-
+	public void close() {
+		running = false;
+	}
 }

@@ -7,6 +7,8 @@ public class Gameboard extends GameObject{
 	public Gameboard(double x, double y) {
 		setX(x);
 		setY(y);
+		Calculations.setX(x);
+		Calculations.setY(y);
 	}
 	protected void spawnGameColorObject(GameColorObject gco, int id, double offset) {
 		switch (id) {
@@ -28,6 +30,6 @@ public class Gameboard extends GameObject{
 			break;
 		}
 	}
-
+	
 
 }

@@ -28,7 +28,7 @@ public class TestTeam {
 		Team t = game.getTeam(0);
 		int count = 0;
 		for (int i = 0; i < t.getPlayers().length; i++) {
-			boolean added = t.addPlayer( new Player(new Statistics(1, 1, 1, 1),1) );
+			boolean added = t.addPlayer( new Player(new Statistics(1, 1, 1, 1)) );
 			if (added) {
 				count++;
 			}
@@ -40,10 +40,10 @@ public class TestTeam {
 		Team t = game.getTeam(0);
 		int count = 0;
 		for (int j = 0; j < 20; j = j+2) {
-			t.getPlayers()[j] = new Player(new Statistics(1, 1, 1, 1),1);
+			t.getPlayers()[j] = new Player(new Statistics(1, 1, 1, 1));
 		}
 		for (int i = 0; i < t.getPlayers().length; i++) {
-			boolean added = t.addPlayer( new Player(new Statistics(1, 1, 1, 1),1) );
+			boolean added = t.addPlayer( new Player(new Statistics(1, 1, 1, 1)) );
 			if (added) {
 				count++;
 			}

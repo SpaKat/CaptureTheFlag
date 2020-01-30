@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 public class GameMainPane extends BorderPane {
 	
 	private GameManager gm;
-	
+	private GameGUI ggui;
 	public GameMainPane() {
 		double startX = 500;
 		double startY = 500;
@@ -109,10 +109,16 @@ public class GameMainPane extends BorderPane {
 	private void launchGame() {
 		// TODO
 		// make base game
-		setCenter(new GameGUI(gm));
+		ggui = new GameGUI(gm);
+		setCenter(ggui);
 	}
 	public void close() {
 		// TODO final clean up
+		try {
+			ggui.close();
+		}catch (Exception e) {
+			System.err.println("Failed to close GameGUI");
+		}
 		
 	}
 	

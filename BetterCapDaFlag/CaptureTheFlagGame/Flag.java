@@ -16,10 +16,6 @@ public class Flag extends GameColorObject{
 	public boolean isTaken() {
 		return taken;
 	}
-	public void setTaken(boolean taken) {
-		this.taken = taken;
-	}
-
 	public void setCarryingPlayer(Player carryingPlayer) {
 		this.carryingPlayer = carryingPlayer;
 	}
@@ -40,5 +36,10 @@ public class Flag extends GameColorObject{
 	public void reset() {
 		carryingPlayer = null;
 		taken = false;
+	}
+
+	public void grabed(Player player) {
+		carryingPlayer = player;
+		taken = true;
 	}
 }

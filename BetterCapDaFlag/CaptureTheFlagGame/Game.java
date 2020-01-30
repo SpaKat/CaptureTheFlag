@@ -64,7 +64,18 @@ public class Game implements Serializable{
 		//move flags
 			teams[i].moveFlag();
 		}
-
+		// check for take flag
+		Flag flags[] = new Flag[teams.length];
+		for (int i = 0; i < flags.length; i++) {
+			flags[i] = teams[i].getFlag();
+		}
+		for (int i = 0; i < teams.length; i++) {
+			for (int j = 0; j < flags.length; j++) {
+				if (i!=j && !flags[j].isTaken()) {
+					teams[i].grabFlag(flags[j]);
+				}
+			}
+		}
 	}
 	
 	public void cleanUp() {

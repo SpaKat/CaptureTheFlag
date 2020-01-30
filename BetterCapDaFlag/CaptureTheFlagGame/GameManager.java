@@ -9,7 +9,7 @@ public class GameManager{
 		Gameboard = gameboard;
 		this.game = game;
 	}
-	
+
 	public boolean OneTurn() {
 		//spawn
 		game.spawnPlayers();
@@ -29,9 +29,13 @@ public class GameManager{
 
 	public void setheight(double newHieght) {
 		Gameboard.setY(newHieght);
+		Calculations.setY(newHieght);
+
 	}
 	public void setwidth(double newWidth) {
 		Gameboard.setX(newWidth);
+		Calculations.setX(newWidth);
+
 	}
 	public void relocatePieces() {
 		game.relocateFlags();
@@ -43,21 +47,21 @@ public class GameManager{
 	public Team[] getTeams() {
 		return game.getTeams();
 	}
-	public void addPlayer(Player player) {
-		System.out.println(game.getTeam(0).addPlayer(player));
-		
+	public void addPlayer(Player player, int teamid) {
+		game.getTeam(teamid).addPlayer(player);
+
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
-/*
+	/*
 	public GameInfo sendInfo() {
 		GameInfo gameInfo = new GameInfo(game.getTeams(),game.getGameboard()); 
 		return gameInfo;
 	}
-*/
+	 */
 
-	
 
-	
+
+
 
 
 

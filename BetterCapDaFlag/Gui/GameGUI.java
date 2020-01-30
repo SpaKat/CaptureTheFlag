@@ -3,10 +3,10 @@ package Gui;
 import java.util.ArrayList;
 
 import CaptureTheFlagGame.GameManager;
+import CaptureTheFlagGame.GameRunnable;
 import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import CaptureTheFlagGame.Team;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -18,7 +18,8 @@ public class GameGUI extends Pane {
 
 	private ArrayList<GameGUITeam> guiTeams;
 	private GameManager gm;
-
+	private GameRunnable backgroundUpdate;
+	private GameGUIRunnable guiUpdate;
 	public GameGUI(GameManager gm) {
 		this.gm = gm;
 		gm.relocatePieces();
@@ -52,6 +53,7 @@ public class GameGUI extends Pane {
 		VBox vb = new VBox();
 		vb.getChildren().add(testgmtaketurn());
 		vb.getChildren().add(testspawnplayer());
+		vb.getChildren().add(testfull4Teams());
 		vb.getChildren().add(testGameThreads());
 		Scene scene = new Scene(new ScrollPane(vb) );
 		stage.setScene(scene);
@@ -63,7 +65,15 @@ public class GameGUI extends Pane {
 		Button takeoneturn = new Button("Take one Game manager turn");
 		
 		takeoneturn.setOnAction(e->{
+			long t = System.currentTimeMillis();
 			gm.OneTurn();
+			System.out.println("turn took = " + (System.currentTimeMillis() - t)+" ms");
+			guiTeams.forEach(team -> {
+				team.updatePlayers();
+				team.relocate();
+			});
+		//	System.out.println(getChildren().size());
+		//	System.out.println("\n");
 		});
 		
 		return takeoneturn ;
@@ -72,17 +82,47 @@ public class GameGUI extends Pane {
 	private Button testspawnplayer() {
 		Button spawnplayer = new Button("Spawn Player on team 0");
 		spawnplayer.setOnAction(e->{
-			gm.addPlayer(new Player(new Statistics(1, 1, 1, 1)));	
+			gm.addPlayer(new Player(new Statistics(1, 1, 1, 97)),0);	
 		});
 		return spawnplayer ;
 	}
-	
+	private Button testfull4Teams() {
+		Button spawnplayer = new Button("Spawn 4 full teams");
+		spawnplayer.setOnAction(e->{
+			for (int i = 0; i <4; i++) {
+				for (int j = 0; j <20; j++) {
+					gm.addPlayer(new Player(new Statistics(1, 1, 1, 50)),i);	
+				}
+			}
+			
+		});
+		return spawnplayer ;
+	}
 	private Button testGameThreads() {
 		Button gameThreads = new Button("run game threads");
 		gameThreads.setOnAction(e->{
-			
+			backgroundUpdate = new GameRunnable(gm);
+			guiUpdate = new GameGUIRunnable(guiTeams);
+			Thread t = new Thread(backgroundUpdate);
+			Thread t2 = new Thread(guiUpdate);
+			t.start();
+			t2.start();
 		});
 		return gameThreads;
+	}
+	public void close() {
+		try {
+		backgroundUpdate.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("failed to close background update");
+		}
+		try {
+		guiUpdate.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("failed to close gui update");
+		}
 	}
 	
 }
