@@ -79,13 +79,13 @@ public class Player extends GameColorObject{
 	
 
 	public void fireBullet() {
-		Bullet bullet = new Bullet(getX(), getY(), heading, 50, stats.getAttack());
 		if(full()) {
 			//System.out.println("Team is full");
 		}else {
 			boolean added = false;
 			for (int i = 0; i < bullets.length; i++) {
 				if (!added && bullets[i] == null) {
+					Bullet bullet = new Bullet(getX(), getY(), heading, 50, stats.getAttack());
 					bullets[i] = bullet;
 					added = true;
 				}
