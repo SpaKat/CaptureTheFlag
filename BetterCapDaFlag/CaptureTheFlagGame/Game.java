@@ -11,7 +11,7 @@ public class Game implements Serializable{
 	private Team teams[];
 	private long respawnTimer = 3000; // in millis seconds
 	private Gameboard gameboard;
-	private int winningScore = 1;
+	private int winningScore = 10;
 	
 	public Game(Gameboard gameboard, int numOfTeams, int numOfPlayers, int respawnTime) {
 		this.gameboard = gameboard;
@@ -42,12 +42,12 @@ public class Game implements Serializable{
 	public void checkForPoint() {
 		for (int i = 0; i < teams.length; i++) {
 			Flag flag = teams[i].getFlag();
-			for (int j = i+1; j < teams.length; j++) {
-				if (flag.isTaken()) {
+			for (int j = 0; j < teams.length; j++) {
+				if (flag.isTaken() && j!= i) {
 					if (Calculations.distance(teams[j].getHomeBase(), flag) < Calculations.combineRadius(teams[j].getHomeBase(), flag)) {
 						flag.reset();
 						teams[j].scored();
-						gameboard.spawnGameColorObject(teams[j].getFlag(),teams[j].getId(),teams[j].getHomeBase().getRadius());
+						gameboard.spawnGameColorObject(flag,teams[i].getId(),teams[i].getHomeBase().getRadius());
 					}
 				}
 			}

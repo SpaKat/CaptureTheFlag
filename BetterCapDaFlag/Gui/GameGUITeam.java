@@ -34,25 +34,27 @@ public class GameGUITeam {
 	public void updatePlayers() {
 		Player[] backPlayers = team.getPlayers();
 		for (int j = 0; j < backPlayers.length; j++) {
-			try {
-				if (players[j].getPlayer().same(backPlayers[j])) {
-					// gui player has the back ground player
-					players[j].relocatePOS();
-				} else {
+			if(backPlayers[j] != null ) {
+				if (players[j].getPlayer() != null) {
+					if (players[j].getPlayer().same(backPlayers[j])) {
+						// gui player has the back ground player
+						players[j].relocatePOS();
+					} 
+				}else {
 					//gui does not have the background player
 					players[j].setup(backPlayers[j]);
 				}
-			}catch (Exception e) {
-				//System.err.println("player" + j+ " does not exsist on GameGUITeam");
-				try {
-					players[j].setup(backPlayers[j]);
+				//System.out.println(gamegui.getChildren().size());
+				if (!gamegui.getChildren().contains(players[j])) {
 					gamegui.getChildren().add(players[j]);
-				}catch (Exception e1) {
-					//System.err.println("player" + j+ " does not exsist on GameGUITeam");
-
 				}
+			}else {
+				gamegui.getChildren().remove(players[j]);
 			}
-			
+
 		}
+	}
+	public void updateBullets() {
+
 	}
 }

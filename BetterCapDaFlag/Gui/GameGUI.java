@@ -1,12 +1,15 @@
 package Gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.GameRunnable;
 import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import CaptureTheFlagGame.Team;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -55,11 +58,14 @@ public class GameGUI extends Pane {
 		vb.getChildren().add(testspawnplayer());
 		vb.getChildren().add(testfull4Teams());
 		vb.getChildren().add(testGameThreads());
+		vb.getChildren().add(testremoverndplayer());
 		Scene scene = new Scene(new ScrollPane(vb) );
 		stage.setScene(scene);
 		stage.show();
 		
 	}
+
+	
 
 	private Button testgmtaketurn() {
 		Button takeoneturn = new Button("Take one Game manager turn");
@@ -109,6 +115,19 @@ public class GameGUI extends Pane {
 			t2.start();
 		});
 		return gameThreads;
+	}
+	private Button testremoverndplayer() {
+		Button spawnplayer = new Button("SRemove random player");
+		spawnplayer.setOnAction(e->{
+			Random rn = new Random();
+			gm.getTeams()[rn.nextInt(4)].getPlayers()[rn.nextInt(20)] = null;	
+			for (int i = 0; i < gm.getTeams().length; i++) {
+				System.out.println(Arrays.toString(gm.getTeams()[i].getPlayers()));
+			}
+			System.out.println("\n");
+		});
+		return spawnplayer ;
+	
 	}
 	public void close() {
 		try {

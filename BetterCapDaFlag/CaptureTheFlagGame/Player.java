@@ -63,8 +63,8 @@ public class Player extends GameColorObject{
 	}
 	@Override
 	public String toString() {
-		
-		return "p____";
+
+		return "p___";
 	}
 	public void fullHealth() {
 		stats.fullHealth();
@@ -73,27 +73,53 @@ public class Player extends GameColorObject{
 	public void move() {
 		Calculations.move(stats.getMovespeed(), heading, this);
 		heading += Math.PI/180;
+		//fireBullet();
+	}
+	
+	
+
+	public void fireBullet() {
+		Bullet bullet = new Bullet(getX(), getY(), heading, 50, stats.getAttack());
+		if(full()) {
+			//System.out.println("Team is full");
+		}else {
+			boolean added = false;
+			for (int i = 0; i < bullets.length; i++) {
+				if (!added && bullets[i] == null) {
+					bullets[i] = bullet;
+					added = true;
+				}
+			}
+			//System.out.println(Arrays.toString(players));
+		}
 		
+	}
+
+	private boolean full() {
+
+		boolean b = true;
+		for (int i = 0; i < bullets.length; i++) {
+			if (bullets[i] == null) {
+				b = false;
+			}
+		}
+		return b;
 	}
 
 	public void bullets() {
 		for (int i = 0; i < bullets.length; i++) {
-			try {
-			bullets[i].move();
-			}catch (Exception e) {
-				//System.err.println("Can't Move non esisting bullets");
+			if(bullets[i] != null) {
+				bullets[i].move();
 			}
 		}
 	}
 
 	public void cleanDiedBullets() {
 		for (int i = 0; i < bullets.length; i++) {
-			try{
+			if(bullets[i] != null){
 				if (bullets[i].isDied()) {
 					bullets[i] = null;
 				}
-			}catch (Exception e) {
-			//	System.err.println("player cleanDiedBullets()");
 			}
 		}
 	}
@@ -103,7 +129,7 @@ public class Player extends GameColorObject{
 	public boolean isConnected() {
 		return connected;
 	}
-	
+
 	public boolean same(Player o) {
 		boolean b = false;
 		if (o.getX() == getX() && o.getY() == getY()) {
