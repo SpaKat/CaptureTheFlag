@@ -9,6 +9,7 @@ import CaptureTheFlagGame.GameRunnable;
 import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import CaptureTheFlagGame.Team;
+import Server.ServerGameRunnable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,19 +24,20 @@ public class GameGUI extends Pane {
 	private GameManager gm;
 	private GameRunnable backgroundUpdate;
 	private GameGUIRunnable guiUpdate;
+	private ServerGameRunnable server;
 	public GameGUI(GameManager gm) {
 		this.gm = gm;
 		gm.relocatePieces();
 		//TODO
 		tester();
-		
+
 		setStyle("-fx-background-color: black");
 		guiTeams = new ArrayList<>();
 		Team teams[] = gm.getTeams();
 		for (int i = 0; i < teams.length; i++) {
 			guiTeams.add(new GameGUITeam(teams[i], this));
 		}
-		
+
 		widthProperty().addListener(  (obs,old,newV ) -> {
 			gm.setwidth(newV.doubleValue());
 			gm.relocatePieces();
@@ -50,8 +52,8 @@ public class GameGUI extends Pane {
 
 	private void tester() {
 		// TODO Auto-generated method stub
-		
-		
+
+
 		Stage stage = new Stage();
 		VBox vb = new VBox();
 		vb.getChildren().add(testgmtaketurn());
@@ -59,17 +61,19 @@ public class GameGUI extends Pane {
 		vb.getChildren().add(testfull4Teams());
 		vb.getChildren().add(testGameThreads());
 		vb.getChildren().add(testremoverndplayer());
+		vb.getChildren().add(testremoveALLplayer());
+		vb.getChildren().add(testServerGame());
 		Scene scene = new Scene(new ScrollPane(vb) );
 		stage.setScene(scene);
 		stage.show();
-		
+
 	}
 
-	
+
 
 	private Button testgmtaketurn() {
 		Button takeoneturn = new Button("Take one Game manager turn");
-		
+
 		takeoneturn.setOnAction(e->{
 			long t = System.currentTimeMillis();
 			gm.OneTurn();
@@ -78,10 +82,10 @@ public class GameGUI extends Pane {
 				team.updatePlayers();
 				team.relocate();
 			});
-		//	System.out.println(getChildren().size());
-		//	System.out.println("\n");
+			//	System.out.println(getChildren().size());
+			//	System.out.println("\n");
 		});
-		
+
 		return takeoneturn ;
 	}
 
@@ -100,7 +104,7 @@ public class GameGUI extends Pane {
 					gm.addPlayer(new Player(new Statistics(1, 1, 1, 50)),i);	
 				}
 			}
-			
+
 		});
 		return spawnplayer ;
 	}
@@ -117,7 +121,7 @@ public class GameGUI extends Pane {
 		return gameThreads;
 	}
 	private Button testremoverndplayer() {
-		Button spawnplayer = new Button("SRemove random player");
+		Button spawnplayer = new Button("Remove random player");
 		spawnplayer.setOnAction(e->{
 			Random rn = new Random();
 			gm.getTeams()[rn.nextInt(4)].getPlayers()[rn.nextInt(20)] = null;	
@@ -127,21 +131,48 @@ public class GameGUI extends Pane {
 			System.out.println("\n");
 		});
 		return spawnplayer ;
-	
+
+	}
+	private Button testremoveALLplayer() {
+		Button spawnplayer = new Button("Remove all players");
+		spawnplayer.setOnAction(e->{
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j <20; j++) {
+					gm.getTeams()[i].getPlayers()[j] = null;
+				}
+			}
+		});
+		return spawnplayer ;
+
+	}
+	private Button testServerGame() {
+		Button gameThreads = new Button("run server game threads");
+		gameThreads.setOnAction(e->{
+			server = new ServerGameRunnable(gm, guiTeams);
+			Thread t = new Thread(server);
+			t.start();
+		});
+		return gameThreads;
 	}
 	public void close() {
 		try {
-		backgroundUpdate.close();
+			backgroundUpdate.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("failed to close background update");
 		}
 		try {
-		guiUpdate.close();
+			guiUpdate.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("failed to close gui update");
 		}
+		try {
+			server.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("failed to close server");
+		}
 	}
-	
+
 }

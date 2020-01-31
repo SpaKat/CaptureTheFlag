@@ -24,7 +24,7 @@ public class GameGUIRunnable implements Runnable {
 					guiTeams.forEach(team -> {
 						team.relocate();
 						team.updatePlayers();
-						
+						team.updateBullets();
 					});
 				}
 			});

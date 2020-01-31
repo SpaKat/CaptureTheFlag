@@ -11,7 +11,7 @@ public class Bullet extends GameColorObject {
 	
 	
 	public Bullet(double x, double y, double heading, double range, double damage) {
-		speed = 50;
+		speed = 125;
 		setX(x);
 		setY(y);
 		setRadius(3);
@@ -40,8 +40,16 @@ public class Bullet extends GameColorObject {
 	public void move() {
 		Calculations.move(speed, heading, this);
 		range -= Calculations.unitsMoved(speed, heading);
-		if (range <= 0 ) {
-			setDied(false);
+		if (range <= 0 || Calculations.hitTheEdge(this)) {
+			setDied(true);
 		}
+	}
+
+	public boolean same(Bullet o) {
+		boolean b = false;
+		if (o.getX() == getX() && o.getY() == getY()) {
+			b = true;
+		}
+		return b;
 	}
 }

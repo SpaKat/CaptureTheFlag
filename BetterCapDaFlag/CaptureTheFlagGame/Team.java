@@ -15,7 +15,7 @@ public class Team implements Serializable{
 	private int color; //hex
 	private int id;
 	private int score;
-
+	private int maxBullets = 1;
 	public Team(int id) {
 		this.id = id;
 		Random rn = new Random();
@@ -68,6 +68,7 @@ public class Team implements Serializable{
 				if (!added && players[i] == null) {
 					players[i] = player;
 					player.setColor(color);
+					player.setMaxBullets(maxBullets);
 					added = true;
 				}
 			}
@@ -150,7 +151,7 @@ public class Team implements Serializable{
 	public void moveBullets() {
 		for (int i = 0; i < players.length; i++) {
 			if(players[i] != null) {
-				players[i].bullets();
+				players[i].bulletsMove();
 			}
 		}
 	}
@@ -175,5 +176,10 @@ public class Team implements Serializable{
 				}
 			}
 		}
+	}
+
+	public int MaxBullets() {
+		
+		return maxBullets;
 	}
 }

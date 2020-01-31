@@ -10,6 +10,23 @@ public class Calculations {
 		double unitsmovedpertick = speed/20;
 		return unitsmovedpertick;
 	}
+	public static boolean hitTheEdge(GameObject o) {
+		boolean b = false;
+		if (o.getX() <= 0) {
+			b = true;
+		}
+		if (o.getY() <= 0) {
+			b = true;
+		}
+		if (o.getX() >= maxX) {
+			b = true;
+		}
+		if (o.getY() >= maxY) {
+			b = true;
+		}
+		return b;
+	}
+	
 	public static void move(double speed, double heading, GameObject o) {
 			//o.setX(  o.getX() + Math.pow(Math.cos(heading),2)*calculateUnitsPerTick(speed)  );
 			//o.setY(  o.getY() + Math.pow(Math.sin(heading),2)*calculateUnitsPerTick(speed)  );

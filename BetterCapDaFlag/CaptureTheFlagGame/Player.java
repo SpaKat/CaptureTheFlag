@@ -18,6 +18,9 @@ public class Player extends GameColorObject{
 		bullets = new Bullet[1];
 		connected = true;
 	}
+	public void setMaxBullets(int max) {
+		bullets = new Bullet[max];
+	}
 
 	public boolean isDied() {
 		boolean died = false;
@@ -73,7 +76,7 @@ public class Player extends GameColorObject{
 	public void move() {
 		Calculations.move(stats.getMovespeed(), heading, this);
 		heading += Math.PI/180;
-		//fireBullet();
+		fireBullet();
 	}
 	
 	
@@ -85,7 +88,7 @@ public class Player extends GameColorObject{
 			boolean added = false;
 			for (int i = 0; i < bullets.length; i++) {
 				if (!added && bullets[i] == null) {
-					Bullet bullet = new Bullet(getX(), getY(), heading, 50, stats.getAttack());
+					Bullet bullet = new Bullet(getX(), getY(), heading, 75, stats.getAttack());
 					bullets[i] = bullet;
 					added = true;
 				}
@@ -106,7 +109,7 @@ public class Player extends GameColorObject{
 		return b;
 	}
 
-	public void bullets() {
+	public void bulletsMove() {
 		for (int i = 0; i < bullets.length; i++) {
 			if(bullets[i] != null) {
 				bullets[i].move();

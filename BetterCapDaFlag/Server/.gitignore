@@ -2,3 +2,5 @@
 /GameServerClient.class
 /ObjectInputStreamThread.class
 /ServerObjInStreamThread.class
+/ServerGame.class
+/ServerGameRunnable.class
