@@ -75,8 +75,8 @@ public class Player extends GameColorObject{
 
 	public void move() {
 		Calculations.move(stats.getMovespeed(), heading, this);
-		heading += Math.PI/180;
-		fireBullet();
+		//heading += Math.PI/180;
+		//fireBullet();
 	}
 	
 	

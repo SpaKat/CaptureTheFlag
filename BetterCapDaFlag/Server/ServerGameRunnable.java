@@ -1,14 +1,13 @@
 package Server;
 
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.GameRunnable;
 import Gui.GameGUIRunnable;
 import Gui.GameGUITeam;
+import html.HTMLServer;
 
 public class ServerGameRunnable implements Runnable {
 
@@ -18,18 +17,18 @@ public class ServerGameRunnable implements Runnable {
 	private GameGUIRunnable guiUpdate;
 	private boolean running = true;
 	private ServerSocket ss;
-
+	private HTMLServer htmlserver;
 	public ServerGameRunnable(GameManager gm,ArrayList<GameGUITeam> guiTeams) {
 		backgroundUpdate = new GameRunnable(gm);
 		guiUpdate = new GameGUIRunnable(guiTeams);
-
+		htmlserver = new HTMLServer(8008,gm);
 	}
 	
 	@Override
 	public void run() {
 		new Thread(backgroundUpdate).start();
 		new Thread(guiUpdate).start();
-		try {
+		/*try {
 			 ss = new ServerSocket(8008);
 			while (running) {
 				try {
@@ -43,8 +42,8 @@ public class ServerGameRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
+		*/
+ 		
 	}
 
 	public void close() {
@@ -67,6 +66,6 @@ public class ServerGameRunnable implements Runnable {
 			// TODO: handle exception
 			System.err.println("failed to close server Socket");
 		}
+		htmlserver.close();
 	}
-
 }

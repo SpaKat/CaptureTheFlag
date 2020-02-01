@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--meta http-equiv="refresh" content="15"/>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<style type="text/css">
+button {
+	font-size: 350px;
+	line-height: 305px;
+}
+</style>
+
+<body>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<article>
+		<center>
+			<button type="button" class="btn btn-primary" id="up">Up</button>
+		</center>
+		<article>
+			<center>
+			<button type="button" class="btn btn-primary" id="left">Left</button>
+
+			<button type="button" class="btn btn-primary" id="right">Right</button>
+			</center>
+		</article>
+			<center>
+		<button type="button" class="btn btn-primary" id="down">Down</button>
+</center>
+	</article>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+	var direction = ""
+	$(function() {
+		$('#up').click(function() {
+			direction = {
+				"direction" : "UP"
+			}
+			$.ajax({
+				url : '/test',
+				type : 'POST',
+				data : direction,
+				success : function(response) {
+
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+	$(function() {
+		$('#right').click(function() {
+			direction = {
+				"direction" : "Right"
+			}
+			$.ajax({
+				url : '/test',
+				type : 'POST',
+				data : direction,
+				success : function(response) {
+
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+	$(function() {
+		$('#down').click(function() {
+			direction = {
+				"direction" : "Down"
+			}
+			$.ajax({
+				url : '/test',
+				type : 'POST',
+				data : direction,
+				success : function(response) {
+
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+	$(function() {
+
+		$('#left').click(function() {
+			direction = {
+				"direction" : "Left"
+			}
+			$.ajax({
+				url : '/test',
+				type : 'POST',
+				data : direction,
+				success : function(response) {
+
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+</script>
+</html>

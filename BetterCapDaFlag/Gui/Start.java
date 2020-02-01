@@ -1,6 +1,9 @@
 package Gui;
 
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,7 +20,12 @@ public class Start extends Application {
 	
 	@Override
 	public void start(Stage stage){
-		stage.setTitle("Capture The Flag");
+		try {
+			stage.setTitle("Capture The Flag at " + Inet4Address.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		stage.setOnCloseRequest(close ->{
 			mainPane.close();
 		});
