@@ -22,7 +22,7 @@
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-http-9.4.12.v20180830.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-io-9.4.12.v20180830.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-security-9.4.12.v20180830.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-server-9.4.12.v20180830.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-server-9.4.12.v20180830.jar" sourcepath="C:/Users/Laga-Sama/.m2/repository/org/eclipse/jetty/jetty-server/9.4.12.v20180830/jetty-server-9.4.12.v20180830-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-servlet-9.4.12.v20180830.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-util-9.4.12.v20180830.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Laga-Sama/Documents/GitHub/CaptureTheFlag/BetterCapDaFlag/Jars/jetty-webapp-9.4.12.v20180830.jar"/>

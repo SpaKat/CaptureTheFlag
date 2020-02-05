@@ -35,7 +35,7 @@ public class HTMLServer {
 		});
 		post("/test", (request, response) -> {
 
-			System.out.println(request.queryParams("direction"));
+			System.out.println(request.queryParams("command"));
 			return new ThymeleafTemplateEngine().render(new ModelAndView(new HashMap(), "index"));
 		});
 	}
