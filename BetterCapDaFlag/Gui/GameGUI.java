@@ -148,9 +148,13 @@ public class GameGUI extends Pane {
 	private Button testServerGame() {
 		Button gameThreads = new Button("run server game threads");
 		gameThreads.setOnAction(e->{
+			try {
 			server = new ServerGameRunnable(gm, guiTeams);
 			Thread t = new Thread(server);
 			t.start();
+			}catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		});
 		return gameThreads;
 	}

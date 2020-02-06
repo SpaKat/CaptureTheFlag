@@ -1,10 +1,12 @@
 package Server;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.GameRunnable;
@@ -21,16 +23,15 @@ public class ServerGameRunnable implements Runnable {
 	private boolean running = true;
 	private ServerSocket ss;
 	private HTMLServer htmlserver;
-	private ArrayList<ServerClient> serverclient;
-	private GameManager gm;
+	private ServerClient serverclient;
+	private ServerClient sc;
 	private int port = 8008;
 
-	public ServerGameRunnable(GameManager gm,ArrayList<GameGUITeam> guiTeams) {
+	public ServerGameRunnable(GameManager gm,ArrayList<GameGUITeam> guiTeams) throws SocketException {
 		backgroundUpdate = new GameRunnable(gm);
 		guiUpdate = new GameGUIRunnable(guiTeams);
-		htmlserver = new HTMLServer(port*2,gm);
-		serverclient = new ArrayList<>();
-		this.gm = gm;
+		htmlserver = new HTMLServer(port+2,gm);
+		sc = new ServerClient(gm,port+1);
 	}
 
 	@Override
@@ -42,14 +43,11 @@ public class ServerGameRunnable implements Runnable {
 			while (running) {
 				try {
 					Socket s = ss.accept();
-					DatagramSocket ds = new DatagramSocket(s.getPort());
-					System.out.println("made server");
-					
-					ServerClient sc = new ServerClient(gm,ds);
-					new Thread(sc).start();
-					serverclient.add(sc);
-					s.close();
-					Thread.sleep(1);
+					ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+					String Id = saltString();
+					oos.writeBytes(Id);
+					oos.flush();
+					sc.newClient(s,Id);
 				} catch (Exception e) {
 					//	System.err.println("GameRunnable woke up");
 					e.printStackTrace();
@@ -62,7 +60,18 @@ public class ServerGameRunnable implements Runnable {
 
 
 	}
+	public String saltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 100) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
 
+    }
 	public void close() {
 		running  = false;
 		try {
@@ -84,9 +93,7 @@ public class ServerGameRunnable implements Runnable {
 			System.err.println("failed to close server Socket");
 		}
 		htmlserver.close();
-		serverclient.forEach( sc ->{
-			sc.close();
-		});
+		serverclient.close();
 	}
 
 }
