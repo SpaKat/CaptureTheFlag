@@ -1,9 +1,12 @@
 package Server;
 
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import CaptureTheFlagGame.GameManager;
+import CaptureTheFlagGame.Player;
 
 public class ServerClientPlayer {
 
@@ -11,7 +14,7 @@ public class ServerClientPlayer {
 	private Socket socket;
 	private GameManager gm;
 	private String id;
-	
+	private Player p;
 	public ServerClientPlayer(Socket s, GameManager gm, String id) {
 		this.socket = s;
 		this.gm = gm;
@@ -29,9 +32,23 @@ public class ServerClientPlayer {
 
 	public boolean checkConnection() {
 		//true delete
-		boolean delete = true;
-		
+		boolean delete = false;
+		try {
+			socket.setSoTimeout(10);
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+			ois.readObject();
+			//System.out.println();
+		}catch(EOFException e) {
+			delete = true;
+			p.setConnected(false);
+		}catch (Exception e) {
+		}
 		return delete;
+	}
+
+	public Player getPlayer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -23,15 +23,14 @@ public class ServerGameRunnable implements Runnable {
 	private boolean running = true;
 	private ServerSocket ss;
 	private HTMLServer htmlserver;
-	private ServerClient serverclient;
-	private ServerClient sc;
+	private ServerClientRunnable serverclient;
 	private int port = 8008;
 
 	public ServerGameRunnable(GameManager gm,ArrayList<GameGUITeam> guiTeams) throws SocketException {
 		backgroundUpdate = new GameRunnable(gm);
 		guiUpdate = new GameGUIRunnable(guiTeams);
 		htmlserver = new HTMLServer(port+2,gm);
-		sc = new ServerClient(gm,port+1);
+		serverclient = new ServerClientRunnable(gm,port+1);
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class ServerGameRunnable implements Runnable {
 					String Id = saltString();
 					oos.writeBytes(Id);
 					oos.flush();
-					sc.newClient(s,Id);
+					serverclient.newClient(s,Id);
 				} catch (Exception e) {
 					//	System.err.println("GameRunnable woke up");
 					e.printStackTrace();

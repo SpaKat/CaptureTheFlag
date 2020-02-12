@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import CaptureTheFlagGame.GameManager;
 
-public class ServerClient implements Runnable{
+public class ServerClientRunnable implements Runnable{
 
 
 	private GameManager gm;
@@ -19,7 +19,7 @@ public class ServerClient implements Runnable{
 	private boolean running = true;
 	private ArrayList<ServerClientPlayer> cilentPlayers;
 
-	public ServerClient(GameManager gm, int port) throws SocketException {
+	public ServerClientRunnable(GameManager gm, int port) throws SocketException {
 		this.gm = gm;
 		datasocket = new DatagramSocket(port);	
 		datasocket.setSoTimeout(10);
@@ -55,7 +55,7 @@ public class ServerClient implements Runnable{
 					cilentPlayers.remove(scp[i]);
 				}
 			}
-				
+		//	System.out.println(cilentPlayers.size());
 			
 		}
 	}

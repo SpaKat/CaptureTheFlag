@@ -83,6 +83,7 @@ public class Game implements Serializable{
 		//remove died bullets
 		for (int i = 0; i < teams.length; i++) {
 			teams[i].cleanDiedBullets();
+			teams[i].deleteDisconnectPlayers();
 		}
 	}
 
@@ -164,6 +165,8 @@ public class Game implements Serializable{
 			}
 		}
 	}
+
+	
 
 
 

@@ -51,6 +51,9 @@ public class tester {
 //			for (int i = 0; i < a.length; i++) {
 //				System.out.println(a[i]);
 //			}
+			Thread.sleep(10000);
+			ds.close();
+			s.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

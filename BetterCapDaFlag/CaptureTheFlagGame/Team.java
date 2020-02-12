@@ -182,4 +182,12 @@ public class Team implements Serializable{
 		
 		return maxBullets;
 	}
+
+	public void deleteDisconnectPlayers() {
+		for (int i = 0; i < players.length; i++) {
+			if (!players[i].isConnected()) {
+				players[i] = null;
+			}
+		}
+	}
 }
