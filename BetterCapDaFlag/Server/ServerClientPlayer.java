@@ -7,15 +7,18 @@ import java.net.Socket;
 
 import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.Player;
+import CaptureTheFlagGame.Statistics;
+import Server.Message.Heading;
+import Server.Message.setupPlayer;
 
 public class ServerClientPlayer {
 
-	
+
 	private Socket socket;
 	private GameManager gm;
-	private String id;
-	private Player p;
-	public ServerClientPlayer(Socket s, GameManager gm, String id) {
+	private long id;
+	private Player player;
+	public ServerClientPlayer(Socket s, GameManager gm, long id) {
 		this.socket = s;
 		this.gm = gm;
 		this.id = id;
@@ -38,11 +41,14 @@ public class ServerClientPlayer {
 			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 			ois.readObject();
 			//System.out.println();
+
 		}catch(EOFException e) {
 			delete = true;
-			p.setConnected(false);
+			if(player != null) {
+				player.setConnected(false);
+			}
 		}catch (Exception e) {
-		}
+		} 
 		return delete;
 	}
 
@@ -50,5 +56,23 @@ public class ServerClientPlayer {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public long getId() {
+		return id;
+	}
 
+	public void processSetupPlayer(setupPlayer sp) {
+		
+		Statistics stats = sp.getStats();
+		int teamId = sp.getTeamID();
+		if(player ==null) {
+			if(stats.getRateing()) {
+				player = new Player(stats);
+				gm.addPlayer(player, teamId);
+			}
+		}
+	}
+
+	public void processHeading(Heading h) {
+		player.setHeading(h.getHeading());
+	}
 }

@@ -3,13 +3,19 @@ package Server;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.CPInstruction;
+
 import CaptureTheFlagGame.GameManager;
+import Server.Message.Heading;
+import Server.Message.SetupConnection;
+import Server.Message.setupPlayer;
 
 public class ServerClientRunnable implements Runnable{
 
@@ -18,7 +24,7 @@ public class ServerClientRunnable implements Runnable{
 	private DatagramSocket datasocket;
 	private boolean running = true;
 	private ArrayList<ServerClientPlayer> cilentPlayers;
-
+	private long Id = 0;
 	public ServerClientRunnable(GameManager gm, int port) throws SocketException {
 		this.gm = gm;
 		datasocket = new DatagramSocket(port);	
@@ -63,12 +69,24 @@ public class ServerClientRunnable implements Runnable{
 		ByteArrayInputStream inobject = new ByteArrayInputStream(dp.getData());
 		ObjectInputStream findobject = new ObjectInputStream(inobject);
 		Object o = findobject.readObject();
-		System.out.println(o.getClass().getSimpleName());
+	//	System.out.println(o.getClass().getSimpleName());
 		switch (o.getClass().getSimpleName()) {
-		case "":
-			
+		case "setupPlayer":
+			setupPlayer sp = (setupPlayer) o;
+			cilentPlayers.forEach(cp->{
+				if (sp.getId() == cp.getId()) {
+					cp.processSetupPlayer(sp);
+				}
+			});
 			break;
-
+		case "Heading":
+			Heading H = (Heading) o;
+			cilentPlayers.forEach(cp->{
+				if (H.getId() == cp.getId()) {
+					cp.processHeading(H);
+				}
+			});
+			break;
 		default:
 			
 			break;
@@ -85,8 +103,12 @@ public class ServerClientRunnable implements Runnable{
 
 	}
 
-	public void newClient(Socket s, String id) {
-		ServerClientPlayer scp = new ServerClientPlayer(s,gm,id);
+	public void newClient(Socket s) throws Exception {
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		oos.writeObject(new SetupConnection(Id,gm.getTeams().length));
+		oos.flush();
+		ServerClientPlayer scp = new ServerClientPlayer(s,gm,Id);
 		cilentPlayers.add(scp);
+		Id++;
 	}
 }
