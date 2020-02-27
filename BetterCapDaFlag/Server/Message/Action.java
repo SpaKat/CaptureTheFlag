@@ -2,17 +2,21 @@ package Server.Message;
 
 import java.io.Serializable;
 
-public class Heading extends Message implements Serializable {
+public class Action extends Message implements Serializable {
 
 	private double heading;
-	
-	public Heading(long id, double heading) {
+	private boolean fire;
+	public Action(long id, double heading, boolean fire) {
 		super(id);
 		this.heading = heading;
+		this.fire = fire;
 	}
 
 	public double getHeading() {
 		return heading;
+	}
+	public boolean isFire() {
+		return fire;
 	}
 	/**
 	 * 

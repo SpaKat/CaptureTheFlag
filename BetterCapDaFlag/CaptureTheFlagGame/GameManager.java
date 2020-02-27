@@ -47,8 +47,8 @@ public class GameManager{
 	public Team[] getTeams() {
 		return game.getTeams();
 	}
-	public void addPlayer(Player player, int teamid) {
-		game.getTeam(teamid).addPlayer(player);
+	public boolean addPlayer(Player player, int teamid) {
+		return game.getTeam(teamid).addPlayer(player);
 
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//

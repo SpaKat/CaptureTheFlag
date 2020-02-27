@@ -127,6 +127,9 @@ public class Player extends GameColorObject{
 		}
 	}
 	public void setConnected(boolean connected) {
+		for (int i = 0; i < bullets.length; i++) {
+			bullets[i] = null;
+		}
 		this.connected = connected;
 	}
 	public boolean isConnected() {

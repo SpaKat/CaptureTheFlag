@@ -1,12 +1,10 @@
 package Server;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.GameRunnable;
@@ -45,12 +43,12 @@ public class ServerGameRunnable implements Runnable {
 					serverclient.newClient(s);
 				} catch (Exception e) {
 					//	System.err.println("GameRunnable woke up");
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 
 
