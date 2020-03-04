@@ -9,9 +9,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 
-import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import Server.Message.Action;
 import Server.Message.SetupConnection;
@@ -74,8 +72,6 @@ public class ClientAPI {
 			socket.setSoTimeout(1);
 			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 			ois.readObject();
-			//System.out.println();
-
 		}catch(EOFException e) {
 			delete = disconnected();
 			//e.printStackTrace();
@@ -111,10 +107,12 @@ public class ClientAPI {
 	public void sendFire() throws IOException {
 		sendAction(heading, true);
 	}
-	public void setupPlayer(Statistics statistics, int i) throws IOException {
-		sendMessage(new setupPlayer(id,statistics ,i));
+	public void setupPlayer(Statistics statistics, int i,String name) throws IOException {
+		sendMessage(new setupPlayer(id,statistics ,i,name));
 	}
-	
+	public int getTeamsInGame() {
+		return teamsInGame;
+	}
 
 }
 

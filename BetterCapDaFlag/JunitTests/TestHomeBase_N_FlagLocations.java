@@ -1,12 +1,11 @@
 package JunitTests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import CaptureTheFlagGame.Game;
-import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.Gameboard;
 import CaptureTheFlagGame.Team;
 
@@ -15,14 +14,12 @@ class TestHomeBase_N_FlagLocations {
 
 	private Gameboard gameboard;
 	private Game game;
-	private GameManager gm;
 	int size = 1000;
 
 	@BeforeEach
 	void setUp()  {
 		gameboard = new Gameboard(size, size);
 		game = new Game(gameboard,4,20,3000);
-		gm = new GameManager(gameboard, game);
 
 	}
 

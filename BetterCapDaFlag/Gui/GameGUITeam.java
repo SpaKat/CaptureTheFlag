@@ -1,6 +1,4 @@
 package Gui;
-import java.util.ArrayList;
-
 import CaptureTheFlagGame.Bullet;
 import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Team;
@@ -83,12 +81,13 @@ public class GameGUITeam {
 						}else {
 							bullets[i][j].setup(backBullets[j]);
 						}
+						if (!gamegui.getChildren().contains(bullets[i][j])) {
+							gamegui.getChildren().add(bullets[i][j]);
+						}
 					}else {
 						gamegui.getChildren().remove(bullets[i][j]);
 					}
-					if (!gamegui.getChildren().contains(bullets[i][j])) {
-						gamegui.getChildren().add(bullets[i][j]);
-					}
+					
 				}else {
 					gamegui.getChildren().remove(bullets[i][j]);
 				}

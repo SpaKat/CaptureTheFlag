@@ -60,7 +60,7 @@ class fun extends Thread{
 
 			ClientAPI test = new ClientAPI("127.0.0.1", 8008);
 			System.out.println("cilent "+ i +" is sening setup player");
-			test.sendMessage(new setupPlayer(test.getId(), new Statistics(20, 20, 20, 20) , i%4) );
+			test.sendMessage(new setupPlayer(test.getId(), new Statistics(20, 20, 20, 20) , i%4,"") );
 			double heading =0;
 			long clock = System.currentTimeMillis();
 			while(System.currentTimeMillis()-clock< 600000) {

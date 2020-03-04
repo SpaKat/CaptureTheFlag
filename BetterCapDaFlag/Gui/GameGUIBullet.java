@@ -1,7 +1,6 @@
 package Gui;
 
 import CaptureTheFlagGame.Bullet;
-import CaptureTheFlagGame.Player;
 import javafx.scene.shape.Circle;
 
 public class GameGUIBullet extends Circle {
@@ -18,7 +17,6 @@ private Bullet bullet;
 	public void relocatePOS() {
 		setLayoutX(bullet.getX());
 		setLayoutY(bullet.getY());
-	//	System.out.println(player.getX() +" " + player.getY());
 	}
 	public Bullet getBullet() {
 		return bullet;

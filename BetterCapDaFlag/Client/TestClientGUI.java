@@ -3,7 +3,6 @@ package Client;
 import java.io.IOException;
 
 import CaptureTheFlagGame.Statistics;
-import Server.Message.setupPlayer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -17,7 +16,7 @@ public class TestClientGUI extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		Pane pane = new Pane();
 		api = new ClientAPI("127.0.0.1", 8008);
-		api.setupPlayer(new Statistics(20, 20, 20, 30) ,(int) (Math.random()*4));
+		api.setupPlayer(new Statistics(20, 20, 20, 30) ,(int) (Math.random()*4),"BOT");
 		Scene scene = new Scene(pane);
 		scene.setOnKeyPressed(e->{
 			switch (e.getCode()) {

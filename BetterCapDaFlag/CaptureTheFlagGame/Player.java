@@ -12,6 +12,7 @@ public class Player extends GameColorObject{
 	private long diedAt; 
 	private Bullet[] bullets;
 	private boolean connected;
+	private String name;
 	public Player(Statistics stats) {
 		this.stats = stats;
 		setRadius(10);
@@ -56,7 +57,13 @@ public class Player extends GameColorObject{
 		setX(-1000);
 		setY(-1000);
 	}
-
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getName() {
+		return name;
+	}
+	
 	public boolean readyToRespawn(long respawnTimer) {
 		boolean b = false;
 		if (Math.abs(diedAt - System.currentTimeMillis()) >= respawnTimer) {

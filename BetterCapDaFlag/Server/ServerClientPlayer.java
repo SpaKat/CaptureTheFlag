@@ -106,6 +106,7 @@ public class ServerClientPlayer implements Runnable{
 		if(player ==null) {
 			if(stats.getRateing()) {
 				player = new Player(stats);
+				player.setName(sp.getName());
 				boolean playerisadded = gm.addPlayer(player, teamId);
 				if (!playerisadded) {
 					disconnected();

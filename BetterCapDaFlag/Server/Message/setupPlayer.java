@@ -8,10 +8,12 @@ public class setupPlayer extends Message implements Serializable {
 
 	private Statistics stats; 
 	private int teamID;
-	public setupPlayer(long id,Statistics stats, int teamID) {
+	private String name;
+	public setupPlayer(long id,Statistics stats, int teamID, String name) {
 		super(id);
 		this.stats = stats;
 		this.teamID = teamID;
+		this.name = name;
 	}
 
 	/**
@@ -23,5 +25,8 @@ public class setupPlayer extends Message implements Serializable {
 	}
 	public int getTeamID() {
 		return teamID;
+	}
+	public String getName() {
+		return name;
 	}
 }
