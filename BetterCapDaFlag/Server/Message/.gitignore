@@ -11,3 +11,5 @@
 /Heading.class
 /Fire.class
 /Action.class
+/CurrentGameState.class
+/RequestCurrentGameState.class

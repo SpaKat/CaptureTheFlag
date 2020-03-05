@@ -48,4 +48,21 @@ public class Statistics implements Serializable{
 	public void takeDamage(double damage) {
 		health = health - (damage-defense/2);
 	}
+	public double getMAXRATING() {
+		return MAXRATING;
+	}
+	public void setAttack(double attack) {
+		this.attack = attack;
+	}
+	public void setDefense(double defense) {
+		this.defense = defense;
+	}
+	public void setHealth(double health) {
+		MAXhealth = health;
+		this.health = health;
+	}
+	public void setMovespeed(double movespeed) {
+		this.movespeed = movespeed;
+	}
+	
 }

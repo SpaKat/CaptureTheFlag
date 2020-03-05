@@ -52,12 +52,11 @@ public class GameManager{
 
 	}
 	// ----------------------------------------- NEEDED FOR INTERNET ----------------------------------//
-	/*
-	public GameInfo sendInfo() {
-		GameInfo gameInfo = new GameInfo(game.getTeams(),game.getGameboard()); 
-		return gameInfo;
+	
+	public Game getGame() {
+		return game;
 	}
-	 */
+	 
 
 	
 

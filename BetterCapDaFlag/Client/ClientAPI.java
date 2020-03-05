@@ -1,5 +1,6 @@
 package Client;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -10,19 +11,23 @@ import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import CaptureTheFlagGame.Game;
 import CaptureTheFlagGame.Statistics;
 import Server.Message.Action;
+import Server.Message.CurrentGameState;
+import Server.Message.RequestCurrentGameState;
 import Server.Message.SetupConnection;
 import Server.Message.setupPlayer;
 
-public class ClientAPI {
+public class ClientAPI implements Runnable{
 
 	private Socket socket;
 	private DatagramSocket datasocket;
 	private long id;
 	private int teamsInGame;
 	private double heading;
-	
+	private Game game;
+	private boolean running = true;
 	public ClientAPI(String ip, int port) throws Exception{
 
 		socket = new Socket(ip,port);
@@ -49,6 +54,9 @@ public class ClientAPI {
 	public void sendAction(double heading, boolean fire) throws IOException {
 		this.heading = heading;
 		sendMessage(new Action(id, heading, fire));
+	}
+	public void sendRequestForCurrentGame() throws IOException {
+		sendMessage(new RequestCurrentGameState(id));
 	}
 	public void checkForConnection() {
 		if(checkConnection()) {
@@ -96,6 +104,7 @@ public class ClientAPI {
 			e.printStackTrace();
 		}
 		datasocket.close();
+		running  = false;
 	}
 	
 	public long getId() {
@@ -107,12 +116,53 @@ public class ClientAPI {
 	public void sendFire() throws IOException {
 		sendAction(heading, true);
 	}
-	public void setupPlayer(Statistics statistics, int i,String name) throws IOException {
-		sendMessage(new setupPlayer(id,statistics ,i,name));
+	public void setupPlayer(Statistics statistics, int team,String name) throws IOException {
+		sendMessage(new setupPlayer(id,statistics ,team,name));
 	}
 	public int getTeamsInGame() {
 		return teamsInGame;
 	}
+	@Override
+	public void run() {
+		while(running ) {
+			byte[] b = new byte[10000];
+			DatagramPacket dp = new DatagramPacket(b, b.length);
 
+			try {
+				datasocket.setSoTimeout(10);
+				datasocket.receive(dp);
+				process(dp);
+				if(checkConnection()) {
+					close();
+				}
+			} catch (Exception e) {
+				//	e.printStackTrace();
+			}
+		}
+	}
+	private void process(DatagramPacket dp) throws IOException, ClassNotFoundException {
+		ByteArrayInputStream inobject = new ByteArrayInputStream(dp.getData());
+		ObjectInputStream findobject = new ObjectInputStream(inobject);
+		Object o = findobject.readObject();
+		//System.out.println(o.getClass().getSimpleName());
+		switch (o.getClass().getSimpleName()) {
+		case "CurrentGameState":
+			CurrentGameState cgs = (CurrentGameState) o;
+			processCurrentGameState(cgs);
+			break;
+		
+		default:
+
+			break;
+		}
+	}
+	private void processCurrentGameState(CurrentGameState cgs) {
+		game = cgs.getGame();
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
 }
 

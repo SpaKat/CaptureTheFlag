@@ -1,5 +1,6 @@
 package Gui;
 
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -10,7 +11,6 @@ import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import CaptureTheFlagGame.Team;
 import Server.ServerGameRunnable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -28,9 +28,6 @@ public class GameGUI extends Pane {
 	public GameGUI(GameManager gm) {
 		this.gm = gm;
 		gm.relocatePieces();
-		//TODO
-		tester();
-
 		setStyle("-fx-background-color: black");
 		guiTeams = new ArrayList<>();
 		Team teams[] = gm.getTeams();
@@ -48,9 +45,18 @@ public class GameGUI extends Pane {
 			gm.relocatePieces();
 			guiTeams.forEach(team->team.relocate());
 		});
+		try {
+			server = new ServerGameRunnable(gm, guiTeams);
+			Thread t = new Thread(server);
+			t.start();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
-	private void tester() {
+	public void showDebugMenu() {
 		// TODO Auto-generated method stub
 
 
@@ -82,8 +88,6 @@ public class GameGUI extends Pane {
 				team.updatePlayers();
 				team.relocate();
 			});
-			//	System.out.println(getChildren().size());
-			//	System.out.println("\n");
 		});
 
 		return takeoneturn ;
@@ -111,14 +115,18 @@ public class GameGUI extends Pane {
 	private Button testGameThreads() {
 		Button gameThreads = new Button("run game threads");
 		gameThreads.setOnAction(e->{
-			backgroundUpdate = new GameRunnable(gm);
-			guiUpdate = new GameGUIRunnable(guiTeams);
-			Thread t = new Thread(backgroundUpdate);
-			Thread t2 = new Thread(guiUpdate);
-			t.start();
-			t2.start();
+			startGameThreads();
 		});
 		return gameThreads;
+	}
+
+	private void startGameThreads() {
+		backgroundUpdate = new GameRunnable(gm);
+		guiUpdate = new GameGUIRunnable(guiTeams);
+		Thread t = new Thread(backgroundUpdate);
+		Thread t2 = new Thread(guiUpdate);
+		t.start();
+		t2.start();
 	}
 	private Button testremoverndplayer() {
 		Button spawnplayer = new Button("Remove random player");

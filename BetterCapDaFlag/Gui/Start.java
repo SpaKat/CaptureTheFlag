@@ -23,7 +23,6 @@ public class Start extends Application {
 		try {
 			stage.setTitle("Capture The Flag at " + Inet4Address.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		stage.setOnCloseRequest(close ->{

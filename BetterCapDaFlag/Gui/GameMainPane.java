@@ -6,6 +6,9 @@ import CaptureTheFlagGame.Gameboard;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -13,18 +16,56 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class GameMainPane extends BorderPane {
-	
+
 	private GameManager gm;
 	private GameGUI ggui;
+	private GameClientGUI cilent;
+	MenuBar menubar ;
 	public GameMainPane() {
 		double startX = 500;
 		double startY = 500;
 		setPrefHeight(startY);
 		setPrefWidth(startX);
-		showGMSettings();
+		setMenuBar();
 	}
 
-	
+
+	private void setMenuBar() {
+		menubar = new MenuBar();
+		Menu server = new Menu("Server");
+
+		MenuItem startServer = new MenuItem("Start server");
+		startServer.setOnAction(e->{
+			if(ggui != null) {
+				ggui.close();
+			}
+
+			showGMSettings();
+		});
+		MenuItem showDebug = new MenuItem("Show Debug Menu");
+		showDebug.setOnAction(e->{
+			if(ggui != null) {
+				ggui.showDebugMenu();
+			}
+		});
+		server.getItems().addAll(startServer,showDebug);
+
+		Menu client = new Menu("Client");
+		MenuItem startClient = new MenuItem("start Client");
+		startClient.setOnAction(e->{
+			cilent = new GameClientGUI();
+			setCenter(cilent);
+			setTop(null);
+			setTop(menubar);
+		});
+		client.getItems().add(startClient);
+		menubar.getMenus().clear();
+		menubar.getMenus().addAll(server,client);
+		setTop(menubar);
+
+	}
+
+
 	private void showGMSettings() {
 		HBox numberofPlayershb = new HBox();
 		TextField numberofPlayer = numberOfPLayers(numberofPlayershb);
@@ -105,12 +146,14 @@ public class GameMainPane extends BorderPane {
 		numberofPlayershb.getChildren().addAll(askForNumPlayers,numberofPlayer);
 		return numberofPlayer;
 	}
-	
+
 	private void launchGame() {
 		// TODO
 		// make base game
 		ggui = new GameGUI(gm);
 		setCenter(ggui);
+		setTop(null);
+		setTop(menubar);
 	}
 	public void close() {
 		// TODO final clean up
@@ -119,8 +162,8 @@ public class GameMainPane extends BorderPane {
 		}catch (Exception e) {
 			System.err.println("Failed to close GameGUI");
 		}
-		
+
 	}
-	
+
 
 }

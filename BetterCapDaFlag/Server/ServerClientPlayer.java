@@ -1,9 +1,11 @@
 package Server;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
@@ -13,6 +15,8 @@ import CaptureTheFlagGame.GameManager;
 import CaptureTheFlagGame.Player;
 import CaptureTheFlagGame.Statistics;
 import Server.Message.Action;
+import Server.Message.CurrentGameState;
+import Server.Message.RequestCurrentGameState;
 import Server.Message.setupPlayer;
 
 public class ServerClientPlayer implements Runnable{
@@ -36,7 +40,7 @@ public class ServerClientPlayer implements Runnable{
 		while(running ) {
 			byte[] b = new byte[10000];
 			DatagramPacket dp = new DatagramPacket(b, b.length);
-			
+
 			try {
 				datasocket.setSoTimeout(10);
 				datasocket.receive(dp);
@@ -124,7 +128,7 @@ public class ServerClientPlayer implements Runnable{
 		}
 	}
 
-	
+
 	private void process(DatagramPacket dp) throws Exception {
 		ByteArrayInputStream inobject = new ByteArrayInputStream(dp.getData());
 		ObjectInputStream findobject = new ObjectInputStream(inobject);
@@ -141,10 +145,30 @@ public class ServerClientPlayer implements Runnable{
 			processAction(a);
 
 			break;
+		case "RequestCurrentGameState":
+			RequestCurrentGameState CGS = (RequestCurrentGameState) o;
+			processRequestCurrentGameState(CGS);
+			break;
 		default:
 
 			break;
 		}
 
+	}
+	private void processRequestCurrentGameState(RequestCurrentGameState request) {
+		CurrentGameState cgs = new CurrentGameState(id,gm.getGame());
+		try {
+			sendMessage(cgs);
+		} catch (IOException e) {
+			
+		}
+	}
+	public void sendMessage(Object message) throws IOException {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(os);
+		oos.writeObject(message);
+		oos.flush();
+		DatagramPacket dp = new DatagramPacket(os.toByteArray(), os.toByteArray().length);
+		datasocket.send(dp);
 	}
 }
