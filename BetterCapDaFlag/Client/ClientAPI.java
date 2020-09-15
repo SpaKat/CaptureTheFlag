@@ -22,7 +22,7 @@ import Server.Message.setupPlayer;
 public class ClientAPI implements Runnable{
 
 	private Socket socket;
-	private DatagramSocket datasocket;
+	private DatagramSocket datasocket; 
 	private long id;
 	private int teamsInGame;
 	private double heading;
